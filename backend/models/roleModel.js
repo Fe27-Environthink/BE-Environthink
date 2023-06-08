@@ -1,29 +1,17 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
-import bcrypt from "bcrypt";
 
 const { DataTypes } = Sequelize;
 
-const User = db.define(
-  "user",
+const Role = db.define(
+  "role",
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isEmail: true,
-      },
-    },
-    password: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -33,7 +21,7 @@ const User = db.define(
   }
 );
 
-export default User;
+export default Role;
 
 (async () => {
   await db.sync();

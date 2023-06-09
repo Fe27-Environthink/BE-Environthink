@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import config from "../config/auth.js";
 import dbs from "../models/index.js";
 
-const User = dbs.user;
+const User = dbs.User;
 
 export const verifyToken = (req, res, next) => {
   let token = req.header["x-access-token"];

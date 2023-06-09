@@ -3,8 +3,8 @@ import config from "../config/auth.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const User = dbs.user;
-const Role = dbs.role;
+const User = dbs.User;
+const Role = dbs.Role;
 
 const Op = dbs.Sequelize.Op;
 
@@ -52,7 +52,7 @@ export const authController = {
           return res.status(404).json({ message: "User Not found." });
         }
 
-        var passwordIsValid = bcrypt.compareSync(
+        const passwordIsValid = bcrypt.compareSync(
           req.body.password,
           user.password
         );

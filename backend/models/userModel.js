@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
-import bcrypt from "bcrypt";
 
 const { DataTypes } = Sequelize;
 
@@ -35,6 +34,6 @@ const User = db.define(
 
 export default User;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

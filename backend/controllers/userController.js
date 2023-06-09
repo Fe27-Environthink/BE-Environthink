@@ -1,13 +1,14 @@
-exports.allAccess = (req, res) => {
-  res.status(200).send("Public Content.");
-};
+const userController = {
+  allAccess: (req, res) => {
+    res.status(200).send("Public Content.");
+  },
 
-exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
-};
+  userBoard: (req, res) => {
+    res.status(200).send("User Content.");
+  },
 
-exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
+  adminBoard: (req, res) => {
+    res.status(200).send("Admin Content.");
+  },
 };
-
 export default userController;

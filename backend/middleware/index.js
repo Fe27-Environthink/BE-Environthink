@@ -1,7 +1,7 @@
-import authMiddleware from "./authMiddleware";
-import verifySignUp from "./verifySignUp";
+import authMiddleware from "./authMiddleware.js";
+import verifySignUp from "./verifySignUp.js";
 
-module.exports = {
+export default {
   authMiddleware,
   verifySignUp,
 };

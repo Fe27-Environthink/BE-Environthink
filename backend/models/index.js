@@ -1,66 +1,40 @@
-"use strict";
+import Sequelize from "sequelize";
+import db from "../config/database.js";
+import userModel from "./userModel.js";
+import roleModel from "./roleModel.js";
 
-const fs = require("fs");
-const path = require("path");
-const Sequelize = require("sequelize");
-const process = require("process");
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config/config.json")[env];
-const db = {};
-
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
-}
-
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf(".") !== 0 &&
-      file !== basename &&
-      file.slice(-3) === ".js" &&
-      file.indexOf(".test.js") === -1
-    );
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+const sequelize = new Sequelize(db.database, db.username, db.password, {
+  host: db.host,
+  dialect: "mysql",
 });
 
-db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.sequelize = sequelize;
 
-db.user = require("../models/userModel.js")(sequelize, Sequelize);
-db.role = require("../models/roleModel.js")(sequelize, Sequelize);
+const User = new userModel(sequelize, Sequelize);
+const Role = new roleModel(sequelize, Sequelize);
 
-db.role.belongsToMany(db.user, {
-  through: "user_role",
-  foreignKey: "roleId",
-  otherKey: "userId",
-});
-db.user.belongsToMany(db.role, {
-  through: "user_role",
-  foreignKey: "userId",
-  otherKey: "roleId",
-});
+Role.associate = (models) => {
+  Role.belongsToMany(User, {
+    through: "user_roles",
+    foreignKey: "roleId",
+    otherKey: "userId",
+  });
+};
+User.associate = (models) => {
+  User.belongsToMany(Role, {
+    through: "user_roles",
+    foreignKey: "userId",
+    otherKey: "roleId",
+  });
+};
 
-db.ROLES = ["user", "admin"];
+const dbs = {
+  User,
+  Role,
+  sequelize,
+  Sequelize,
+  ROLES: ["user", "admin", "moderator"],
+};
 
-module.exports = db;
+export default dbs;

@@ -23,6 +23,6 @@ const Role = db.define(
 
 export default Role;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

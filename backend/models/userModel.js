@@ -1,5 +1,6 @@
 import sequelize from "sequelize";
 import db from "../config/database.js";
+import Role from "./roleModel.js";
 
 const { DataTypes } = sequelize;
 
@@ -26,14 +27,24 @@ const User = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,
   }
 );
 
+// User.belongsToMany(Role, {
+//   through: "user_roles",
+//   foreignKey: "userId",
+//   otherKey: "roleId",
+// });
+
 export default User;
 
-// (async () => {
-//   await db.sync();
-// })();
+(async () => {
+  await db.sync();
+})();

@@ -1,40 +1,35 @@
 import Sequelize from "sequelize";
 import db from "../config/database.js";
-import userModel from "./userModel.js";
-import roleModel from "./roleModel.js";
+import User from "./userModel.js";
+import Role from "./roleModel.js";
 
 const sequelize = new Sequelize(db.database, db.username, db.password, {
   host: db.host,
   dialect: "mysql",
 });
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+const dbs = {};
 
-const User = new userModel(sequelize, Sequelize);
-const Role = new roleModel(sequelize, Sequelize);
+dbs.Sequelize = Sequelize;
+dbs.sequelize = sequelize;
 
-Role.associate = (models) => {
-  Role.belongsToMany(User, {
-    through: "user_roles",
-    foreignKey: "roleId",
-    otherKey: "userId",
-  });
-};
-User.associate = (models) => {
-  User.belongsToMany(Role, {
-    through: "user_roles",
-    foreignKey: "userId",
-    otherKey: "roleId",
-  });
-};
+const userModel = new User(sequelize, Sequelize);
+const roleModel = new Role(sequelize, Sequelize);
 
-const dbs = {
-  User,
-  Role,
-  sequelize,
-  Sequelize,
-  ROLES: ["user", "admin", "moderator"],
-};
+User.belongsToMany(Role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId",
+});
+Role.belongsToMany(User, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId",
+});
+
+dbs.user = userModel;
+dbs.role = roleModel;
+
+dbs.ROLES = ["user", "admin"];
 
 export default dbs;

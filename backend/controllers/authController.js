@@ -2,9 +2,12 @@ import dbs from "../models/index.js";
 import config from "../config/auth.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import User from "../models/userModel.js";
+import Role from "../models/roleModel.js";
+console.log(dbs.user);
 
-const User = dbs.User;
-const Role = dbs.Role;
+// const User = dbs.user;
+// const Role = dbs.role;
 
 const Op = dbs.Sequelize.Op;
 
@@ -36,9 +39,12 @@ export const authController = {
           });
         }
       })
-      .catch(error);
-    console.log(error.message);
-    res.status(500).json({ message: error.message });
+      .catch((error) => {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+      });
+    // console.log(error.message);
+    // res.status(500).json({ message: error.message });
   },
 
   signin: (req, res) => {

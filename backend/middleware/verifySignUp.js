@@ -1,5 +1,9 @@
 import dbs from "../models/index.js";
 import User from "../models/userModel.js";
+import Role from "../models/roleModel.js";
+
+const ROLES = dbs.role;
+// console.log(dbs);
 
 export const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   // USERNAME
@@ -17,7 +21,7 @@ export const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     // EMAIL
     const userByEmail = await User.findOne({
       where: {
-        username: req.body.email,
+        email: req.body.email,
       },
     });
 
@@ -36,11 +40,14 @@ export const checkDuplicateUsernameOrEmail = async (req, res, next) => {
 export const checkRolesExisted = async (req, res, next) => {
   if (req.body.role) {
     try {
-      const { ROLES } = dbs;
+      const roles = await Role.findAll();
+      // console.log(roles);
       for (let i = 0; i < req.body.role.length; i++) {
         const role = req.body.role[i];
 
-        if (!ROLES.includes(role)) {
+        console.log(role);
+
+        if (!roles.some((r) => r.name.toLowerCase() === role.toLowerCase())) {
           res.status(400).json({
             message: "Role does not exist = " + role,
           });

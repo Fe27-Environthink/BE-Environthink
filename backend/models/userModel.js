@@ -1,11 +1,10 @@
-import sequelize from "sequelize";
+import { Sequelize } from "sequelize";
 import db from "../config/database.js";
-import Role from "./roleModel.js";
 
-const { DataTypes } = sequelize;
+const { DataTypes } = Sequelize;
 
 const User = db.define(
-  "user",
+  "users",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -19,16 +18,21 @@ const User = db.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isEmail: true,
-      },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    role: {
+    telepon: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    kota: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.ENUM("user", "admin"),
       allowNull: false,
     },
   },
@@ -36,12 +40,6 @@ const User = db.define(
     freezeTableName: true,
   }
 );
-
-// User.belongsToMany(Role, {
-//   through: "user_roles",
-//   foreignKey: "userId",
-//   otherKey: "roleId",
-// });
 
 export default User;
 

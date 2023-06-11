@@ -16,17 +16,6 @@ dbs.sequelize = sequelize;
 const userModel = new User(sequelize, Sequelize);
 const roleModel = new Role(sequelize, Sequelize);
 
-User.belongsToMany(Role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId",
-});
-Role.belongsToMany(User, {
-  through: "user_roles",
-  foreignKey: "roleId",
-  otherKey: "userId",
-});
-
 dbs.user = userModel;
 dbs.role = roleModel;
 

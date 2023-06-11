@@ -1,6 +1,7 @@
-import authMiddleware from "../middleware/authMiddleware.js";
-import userController from "../controllers/userController.js";
 import express from "express";
+import authMiddleware from "../middleware/authMiddleware.js";
+import verifySignUp from "../middleware/verifySignUp.js";
+import userController from "../controllers/userController.js";
 
 const router = express.Router();
 
@@ -12,17 +13,9 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.get("/test/all", userController.allAccess);
-
+router.post("/user/signup", [verifySignUp], userController.signup);
+router.post("/user/signin", userController.signin);
 router.get(
-  "/test/user",
-  [authMiddleware.verifyToken],
-  userController.userBoard
+  "/user",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin].userController.adminBoard
 );
-
-router.get(
-  "/test/admin",
-  [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  userController.adminBoard
-);
-export default router;

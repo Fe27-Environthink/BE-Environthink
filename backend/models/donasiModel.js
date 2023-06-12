@@ -3,45 +3,60 @@ import db from "../config/database.js";
 
 const { DataTypes } = Sequelize;
 
-const User = db.define(
-  "users",
+const Donasi = db.define(
+  "donasi",
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    username: {
+    nama: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isEmail: true,
+      },
     },
-    password: {
+    nomor_hp: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    telepon: {
+    nomor_rekening: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    kota: {
+    formated_value: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    role: {
-      type: DataTypes.ENUM("user", "admin"),
+    original_value: {
+      type: DataTypes.FLOAT,
       allowNull: false,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "User",
+        key: "id",
+      },
     },
   },
   {
     freezeTableName: true,
   }
 );
+Donasi.associate = function (models) {
+  // Donasi.belongsToMany(models.User, {foreignKey: 'user_id', as: 'user'})
+  console.log(models);
+};
 
-export default User;
+export default Donasi;
 
 // (async () => {
 //   await db.sync();

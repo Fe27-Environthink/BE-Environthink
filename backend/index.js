@@ -4,7 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import infografisRoute from "./routes/infografisRoute.js";
 import userRoute from "./routes/userRoute.js";
-import authRoute from "./routes/authRoute.js";
+import donasiRoute from "./routes/donasiRoute.js";
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ app.use(express.static("assets"));
 
 app.use(infografisRoute);
 app.use(userRoute);
-app.use(authRoute);
+app.use(donasiRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

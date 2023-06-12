@@ -24,14 +24,6 @@ const Kontribusi = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    url: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
     telepon: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -51,6 +51,10 @@ export const ArtikelsController = {
         },
       });
       if (response) {
+        response.hashtag = JSON.parse(
+          JSON.parse(JSON.stringify(response.hashtag))
+        );
+
         res.json({ result: response });
       } else {
         res.status(404).json({ error: "Artikels not found" });

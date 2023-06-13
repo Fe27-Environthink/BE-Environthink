@@ -7,7 +7,26 @@ export const aksiController = {
   getAksi: async (req, res) => {
     try {
       const response = await Aksi.findAll();
-      res.json(response);
+      let result = [];
+      for (const item of response) {
+        let container = {};
+        container.id = item.id;
+        container.title = item.title;
+        container.numberofsupport = item.numberofsupport;
+        container.target = item.target;
+        container.hashtag = JSON.parse(
+          JSON.parse(JSON.stringify(item.hashtag))
+        );
+        container.date = item.date;
+        container.image = item.image;
+        container.url = item.url;
+        container.desc = item.desc;
+        container.desc1 = item.desc1;
+        container.desc2 = item.desc2;
+        container.teks = item.teks;
+        result.push(container);
+      }
+      res.json(result);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Failed to fetch Aksi" });
@@ -21,6 +40,9 @@ export const aksiController = {
         },
       });
       if (response) {
+        response.hashtag = JSON.parse(
+          JSON.parse(JSON.stringify(response.hashtag))
+        );
         res.json({ result: response });
       } else {
         console.log(error);
@@ -35,7 +57,6 @@ export const aksiController = {
   createAksi: async (req, res) => {
     if (req.files === null)
       return res.status(400).json({ message: "No file Uploaded" });
-    const aksi_id = req.body.aksi_id;
     const file = req.files.image;
     const fileSize = file.data.length;
     const ext = path.extname(file.name);
@@ -47,7 +68,10 @@ export const aksiController = {
     const desc1 = req.body.desc1;
     const desc2 = req.body.desc2;
     const teks = req.body.teks;
-    const hashtag = req.body.hashtag;
+    const numberofsupport = req.body.numberofsupport;
+    const target = req.body.target;
+    let hashtag = req.body.hashtag;
+    hashtag = JSON.parse(hashtag);
 
     if (!allowedType.includes(ext.toLowerCase()))
       return res.status(422).json({ message: "Invalid Images Type" });
@@ -61,15 +85,16 @@ export const aksiController = {
       }
       try {
         const newAksi = await Aksi.create({
-          aksi_id: aksi_id,
           image: fileName,
           url: urlImage,
           title: title,
-          hashtag: hashtag,
+          hashtag: JSON.stringify(hashtag),
           desc: desc,
           desc1: desc1,
           desc2: desc2,
           teks: teks,
+          numberofsupport: numberofsupport,
+          target: target,
         });
         res.status(201).json({
           success: true,
@@ -114,7 +139,8 @@ export const aksiController = {
         }
       });
     }
-    const aksi_id = req.body.aksi_id;
+    const numberofsupport = req.bod.numberofsupport;
+    const target = req.body.target;
     const title = req.body.title;
     const hashtag = req.body.hashtag;
     const desc = req.body.desc;
@@ -126,7 +152,6 @@ export const aksiController = {
     try {
       await Aksi.update(
         {
-          aksi_id: aksi_id,
           image: fileName,
           url: urlImage,
           title: title,
@@ -135,6 +160,8 @@ export const aksiController = {
           desc1: desc1,
           desc2: desc2,
           teks: teks,
+          numberofsupport: numberofsupport,
+          target: target,
         },
         {
           where: {

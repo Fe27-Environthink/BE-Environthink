@@ -65,7 +65,7 @@ export const signin = async (req, res) => {
   }
 };
 
-export const adminBoard = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
     const user = await User.findAll();
 
@@ -80,17 +80,31 @@ export const adminBoard = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { username, email, role, telepon, kota } = req.body;
+  const { username, email, role, telepon, kota, password } = req.body;
   try {
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    user.username = username;
-    user.email = email;
-    user.role = role;
-    user.telepon = telepon;
-    user.kota = kota;
+    if (username) {
+      user.username = username;
+    }
+    if (email) {
+      user.email = email;
+    }
+    if (role) {
+      user.role = role;
+    }
+    if (telepon) {
+      user.telepon = telepon;
+    }
+    if (kota) {
+      user.kota = kota;
+    }
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 8);
+      user.password = hashedPassword;
+    }
     await user.save();
     res.json({ message: "User updated successfully" });
   } catch (error) {
@@ -117,7 +131,7 @@ export const deleteUser = async (req, res) => {
 const userController = {
   signup: signup,
   signin: signin,
-  adminBoard: adminBoard,
+  getUser: getUser,
   updateUser: updateUser,
   deleteUser: deleteUser,
 };

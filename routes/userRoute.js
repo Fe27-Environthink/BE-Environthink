@@ -15,12 +15,12 @@ router.use(function (req, res, next) {
 
 router.post("/user/signup", verifySignUp, userController.signup);
 router.post("/user/signin", userController.signin);
-router.get(
-  "/user",
-  [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  userController.adminBoard
-);
-router.put(
+// router.get(
+//   "/user",
+//   [authMiddleware.verifyToken, authMiddleware.isAdmin],
+//   userController.adminBoard
+// );
+router.patch(
   "/user/:id",
   [authMiddleware.verifyToken, authMiddleware.isAdmin],
   userController.updateUser
@@ -30,4 +30,6 @@ router.delete(
   [authMiddleware.verifyToken, authMiddleware.isAdmin],
   userController.deleteUser
 );
+router.get("/user", userController.getUser);
+
 export default router;

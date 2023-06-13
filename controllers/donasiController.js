@@ -37,6 +37,24 @@ export const donasiController = {
       res.status(400).json({ message: "Failed to create donasi" });
     }
   },
+
+  getDonasiById: async (req, res) => {
+    try {
+      const response = await Donasi.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+      if (response) {
+        res.json({ result: response });
+      } else {
+        res.status(404).json({ error: "Donasi not found" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Failed to fetch donasi" });
+    }
+  },
 };
 
 export default donasiController;

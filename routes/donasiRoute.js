@@ -10,5 +10,7 @@ router.post(
   [authMiddleware.verifyToken],
   donasiController.createDonasi
 );
+router.get("/donasi", donasiController.getDonasi);
+router.get("/donasi/:id", donasiController.getDonasiById);
 
 export default router;

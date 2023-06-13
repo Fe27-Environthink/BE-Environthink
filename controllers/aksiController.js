@@ -139,14 +139,16 @@ export const aksiController = {
         }
       });
     }
-    const numberofsupport = req.bod.numberofsupport;
-    const target = req.body.target;
-    const title = req.body.title;
-    const hashtag = req.body.hashtag;
-    const desc = req.body.desc;
-    const desc1 = req.body.desc1;
-    const desc2 = req.body.desc2;
-    const teks = req.body.teks;
+    const {
+      numberofsupport,
+      target,
+      title,
+      hashtag,
+      desc,
+      desc1,
+      desc2,
+      teks,
+    } = req.body;
     const url = `${req.protocol}://${req.get("host")}/aksi/${fileName}`;
     const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
     try {

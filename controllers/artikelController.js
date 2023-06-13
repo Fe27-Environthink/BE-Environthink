@@ -1,12 +1,41 @@
 import Artikels from "../models/artikelModel.js";
 import path from "path";
 import fs from "fs";
+import uploadImage from "../middleware/cloudinary.js";
+// import { JSON } from "sequelize";
+// import { json } from "body-parser";
 
 export const ArtikelsController = {
   getArtikels: async (req, res) => {
     try {
-      const response = await Artikels.findAll();
-      res.json(response);
+      let response = await Artikels.findAll();
+      let result = [];
+      for (const item of response) {
+        let container = {};
+        container.id = item.id;
+        container.titleArticle = item.titleArticle;
+        container.descArticle = item.descArticle;
+        container.category = item.category;
+        container.hashtag = JSON.parse(
+          JSON.parse(JSON.stringify(item.hashtag))
+        );
+        container.author = item.author;
+        container.date = item.date;
+        container.img = item.img;
+        container.desc1 = item.desc1;
+        container.desc2 = item.desc2;
+        container.desc3 = item.desc3;
+        container.desc4 = item.desc4;
+        container.desc5 = item.desc5;
+        container.desc6 = item.desc6;
+        container.desc7 = item.desc7;
+        container.desc8 = item.desc8;
+        container.desc9 = item.desc9;
+        container.desc10 = item.desc10;
+
+        result.push(container);
+      }
+      res.json(result);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Failed to fetch Artikels" });
@@ -32,25 +61,27 @@ export const ArtikelsController = {
   },
 
   createArtikels: async (req, res) => {
-    console.log("ini req body", req.body)
+    console.log("ini req body", req.body);
     if (req.files === null)
       return res.status(400).json({ message: "No file Uploaded" });
     const titleArticle = req.body.titleArticle;
-    const descArticle = req.body.descArticle; 
+    const descArticle = req.body.descArticle;
     const category = req.body.category;
-    const hashtag = req.body.hashtag;
+    // const hashtag = req.body.hashtag.split(",");
+    let hashtag = req.body.hashtag;
+    hashtag = JSON.parse(hashtag);
     const author = req.body.author;
     const date = req.body.date;
     const file = req.files.image;
-    console.log (req.files);
+    console.log(req.files);
     const fileSize = file.data.length;
-    console.log ("ini",fileSize);
+    console.log("ini", fileSize);
     const ext = path.extname(file.name);
     const fileName = file.md5 + ext;
     const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
-    console.log (req.url)
+    console.log(req.url);
     const allowedType = [".png", ".jpg", ".jpeg"];
-    const desc1 = req.body.desc1
+    const desc1 = req.body.desc1;
     const desc2 = req.body.desc2;
     const desc3 = req.body.desc3;
     const desc4 = req.body.desc4;
@@ -61,13 +92,13 @@ export const ArtikelsController = {
     const desc9 = req.body.desc9;
     const desc10 = req.body.desc10;
 
-
     if (!allowedType.includes(ext.toLowerCase()))
       return res.status(422).json({ message: "Invalid Images Type" });
     if (fileSize > 5000000)
       return res.status(422).json({ message: "Image size larger than 5 MB" });
 
-    file.mv(`./public/artikel/${fileName}`, async (error) => {
+    file.mv(`./tmp/images/${fileName}`, async (error) => {
+      const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
       if (error) {
         return res.status(500).json({ message: error.message });
       }
@@ -76,11 +107,11 @@ export const ArtikelsController = {
           titleArticle: titleArticle,
           descArticle: descArticle,
           category: category,
-          hashtag: hashtag,
+          hashtag: JSON.stringify(hashtag),
           author: author,
           date: date,
           image: fileName,
-          url: url,
+          url: urlImage,
           desc1: desc1,
           desc2: desc2,
           desc3: desc3,
@@ -104,22 +135,21 @@ export const ArtikelsController = {
     });
   },
 
-  updateArtikels : async (req, res) => {
+  updateArtikels: async (req, res) => {
     try {
       const artikel = await Artikels.findOne({
         where: {
           id: req.params.id,
         },
       });
-  // console.log(artikel);
+      // console.log(artikel);
       if (!artikel) {
-        return res.status(404).json({ message: 'Data Not Found' });
+        return res.status(404).json({ message: "Data Not Found" });
       }
-  
-      let fileName = '';
+
+      let fileName = "";
       const file = req.files;
-      console.log ("saya")
-      
+      console.log("saya");
 
       // console.log ( typeof file)
 
@@ -133,33 +163,35 @@ export const ArtikelsController = {
         // console.log(req.files);
         const ext = path.extname(req.files.image.name);
         fileName = req.files.image.md5 + ext;
-        const allowedTypes = ['.png', '.jpg', '.jpeg'];
-  
+        const allowedTypes = [".png", ".jpg", ".jpeg"];
+
         if (!allowedTypes.includes(ext.toLowerCase())) {
-          return res.status(422).json({ message: 'Invalid Image Type' });
+          return res.status(422).json({ message: "Invalid Image Type" });
         }
         if (fileSize > 5000000) {
-          return res.status(422).json({ message: 'Image size larger than 5 MB' });
+          return res
+            .status(422)
+            .json({ message: "Image size larger than 5 MB" });
         }
-  // console.log(artikel);
-     const filepath = `./public/artikel/${artikel.image}`;        
-     fs.unlinkSync(filepath);
+        // console.log(artikel);
+        const filepath = `./tmp/images/${artikel.image}`;
+        fs.unlinkSync(filepath);
 
-     req.files.image.mv(`./public/artikel/${fileName}`, (error) => {  
+        req.files.image.mv(`./tmp/images/${fileName}`, (error) => {
           if (error) {
             return res.status(500).json({ message: error.message });
           }
         });
       }
       const titleArticle = req.body.titleArticle;
-      const descArticle = req.body.descArticle; 
+      const descArticle = req.body.descArticle;
       const category = req.body.category;
       const hashtag = req.body.hashtag;
       const author = req.body.author;
-      const date = req.body.date;      
-      const url = `${req.protocol}://${req.get('host')}/artikel/${fileName}`;
+      const date = req.body.date;
+      const url = `${req.protocol}://${req.get("host")}/artikel/${fileName}`;
       const desc1 = req.body.desc1;
-      const desc2 = req.body.desc2;    
+      const desc2 = req.body.desc2;
       const desc3 = req.body.desc3;
       const desc4 = req.body.desc4;
       const desc5 = req.body.desc5;
@@ -167,8 +199,10 @@ export const ArtikelsController = {
       const desc7 = req.body.desc7;
       const desc8 = req.body.desc8;
       const desc9 = req.body.desc9;
-      const desc10 = req.body.desc10;  
-      await Artikels.update({
+      const desc10 = req.body.desc10;
+      const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
+      await Artikels.update(
+        {
           titleArticle: titleArticle,
           descArticle: descArticle,
           category: category,
@@ -176,7 +210,7 @@ export const ArtikelsController = {
           author: author,
           date: date,
           image: fileName,
-          url: url,
+          url: urlImage,
           desc1: desc1,
           desc2: desc2,
           desc3: desc3,
@@ -187,176 +221,52 @@ export const ArtikelsController = {
           desc8: desc8,
           desc9: desc9,
           desc10: desc10,
-      },
-      {
-              where: {
-              id: req.params.id,
-                },
-              }
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
       );
       res.status(200).json({
-        message: 'Successfully Updated Artikels',
+        message: "Successfully Updated Artikels",
       });
     } catch (error) {
-      console.log(req)
+      console.log(req);
 
       console.log(error.message);
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   },
-  
 
-  // updateArtikels : async (req, res) => {
-  //   try {
-  //     const artikel = await Artikels.findOne({
-  //       where: {
-  //         id: req.params.id,
-  //       },
-  //     });
-  
-  //     if (!artikel) {
-  //       return res.status(404).json({ message: 'Data Not Found' });
-  //     }
-  
-  //     let fileName = '';
-  //     if (req.file === null) {
-  //       fileName = artikel.gambar;
-  //     } else {
-  //       const file = req.file;
-  //       const fileSize = file.size;
-  //       const ext = path.extname(file.originalname);
-  //       fileName = file.filename + ext;
-  //       const allowedTypes = ['.png', '.jpg', '.jpeg'];
-  
-  //       if (!allowedTypes.includes(ext.toLowerCase())) {
-  //         return res.status(422).json({ message: 'Invalid Image Type' });
-  //       }
-  //       if (fileSize > 5000000) {
-  //         return res.status(422).json({ message: 'Image size larger than 5 MB' });
-  //       }
-  
-  //       const filepath = path.join(__dirname, '..', 'public', 'images', artikel.gambar);
-  //       fs.unlinkSync(filepath);
-  
-  //       file.mv(path.join(__dirname, '..', 'public', 'images', fileName), (error) => {
-  //         if (error) {
-  //           return res.status(500).json({ message: error.message });
-  //         }
-  //       });
-  //     }
-  
-  //     const name = req.body.title;
-  //     const url = `${req.protocol}://${req.get('host')}/images/${fileName}`;
-  
-  //     await artikel.update({
-  //       artikel_id : artikel_id,
-  //         image: fileName,
-  //         url: url,
-  //         title: title,
-  //         category: category,
-  //         hashtag: hastag,
-  //         author: author,
-  //         desc: desc,
-  //     },
-  //     {
-  //             where: {
-  //             id: req.params.id,
-  //               },
-  //             }
-  //     );
-  
-  //     res.status(200).json({
-  //       message: 'Successfully Updated Artikels',
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     res.status(500).json({ message: 'Internal Server Error' });
-  //   }
-  // }
-  
-  // updateArtikels: async (req, res) => {
-  //   const Artikels = await Artikels.findOne({
-  //     where: {
-  //       id: req.params.id,
-  //     },
-  //   });
-  //   if (!Artikels) return res.status(404).json({ message: "Data Not Found" });
-
-  //   let fileName = "";
-  //   if (req.file === null) {
-  //     fileName = Artikels.gambar;
-  //   } else {
-  //     const file = req.files.file;
-  //     const fileSize = file.data.lenght;
-  //     const ext = path.extname(file.name);
-  //     fileName = file.md5 + ext;
-  //     const allowedType = [".png", ".jpg", ".jpeg"];
-
-  //     if (!allowedType.includes(ext.toLowerCase()))
-  //       return res.status(422).json({ message: "Invalid Images Type" });
-  //     if (fileSize > 5000000)
-  //       return res.status(422).json({ message: "Image size larger than 5 MB" });
-
-  //     const filepath = `./public/images/${Artikels.gambar}`;
-  //     fs.unlinkSync(filepath);
-
-  //     file.mv(`./public/images/${fileName}`, (error) => {
-  //       if (error) {
-  //         return res.status(500).json({ message: error.message });
-  //       }
-  //     });
-  //   }
-  //   const name = req.body.title;
-  //   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
-  //   try {
-  //     await Artikels.update(
-  //       { judul: name, gambar: fileName, url: url },
-  //       {
-  //         where: {
-  //           id: req.params.id,
-  //         },
-  //       }
-  //     );
-  //     res.status(200).json({
-  //       message: "Successfully Updated Product",
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // },
-
-  deleteArtikels : async (req, res) => {
+  deleteArtikels: async (req, res) => {
     try {
       const artikel = await Artikels.findOne({
         where: {
           id: req.params.id,
         },
       });
-  
+
       if (!artikel) {
-        return res.status(404).json({ message: 'Data Not Found' });
+        return res.status(404).json({ message: "Data Not Found" });
       }
-  
-      const filepath = `./public/artikel/${artikel.image}`;
-      console.log(artikel.image)
+
+      const filepath = `./tmp/images/${artikel.image}`;
+      console.log(artikel.image);
       fs.unlinkSync(filepath);
-  
+
       await artikel.destroy({
         where: {
           id: req.params.id,
-        }
-      }
-      );
-      
+        },
+      });
 
-  
-      res.status(200).json({ message: 'Successfully Deleted Artikels' });
+      res.status(200).json({ message: "Successfully Deleted Artikels" });
     } catch (error) {
       console.log(error.message);
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({ message: "Internal Server Error" });
     }
-  }
+  },
 };
-
 
 export default ArtikelsController;

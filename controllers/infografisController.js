@@ -1,6 +1,7 @@
 import Infografis from "../models/infografisModel.js";
 import path from "path";
 import fs from "fs";
+import uploadImage from "../middleware/cloudinary.js";
 
 export const infografisController = {
   getInfografis: async (req, res) => {
@@ -45,7 +46,8 @@ export const infografisController = {
     if (fileSize > 5000000)
       return res.status(422).json({ message: "Image size larger than 5 MB" });
 
-    file.mv(`./assets/images/${fileName}`, async (error) => {
+    file.mv(`./tmp/images/${fileName}`, async (error) => {
+      const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
       if (error) {
         return res.status(500).json({ message: error.message });
       }
@@ -53,7 +55,7 @@ export const infografisController = {
         const newInfografis = await Infografis.create({
           judul: name,
           gambar: fileName,
-          url: url,
+          url: urlImage,
         });
         res.status(201).json({
           success: true,
@@ -89,20 +91,21 @@ export const infografisController = {
       if (fileSize > 5000000)
         return res.status(422).json({ message: "Image size larger than 5 MB" });
 
-      const filepath = `./assets/images/${infografis.gambar}`;
+      const filepath = `./tmp/images/${infografis.gambar}`;
       fs.unlinkSync(filepath);
 
-      file.mv(`./assets/images/${fileName}`, (error) => {
+      file.mv(`./tmp/images/${fileName}`, (error) => {
         if (error) {
           return res.status(500).json({ message: error.message });
         }
       });
     }
     const name = req.body.title;
+    const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
     const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
     try {
       await Infografis.update(
-        { judul: name, gambar: fileName, url: url },
+        { judul: name, gambar: fileName, url: urlImage },
         {
           where: {
             id: req.params.id,

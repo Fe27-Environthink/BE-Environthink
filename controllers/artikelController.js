@@ -21,7 +21,8 @@ export const ArtikelsController = {
         );
         container.author = item.author;
         container.date = item.date;
-        container.img = item.img;
+        container.image = item.image;
+        container.url = item.url;
         container.desc1 = item.desc1;
         container.desc2 = item.desc2;
         container.desc3 = item.desc3;

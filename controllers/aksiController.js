@@ -29,7 +29,7 @@ export const aksiController = {
       res.json(result);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch Aksi" });
+      res.status(500).json({ message: "Failed to fetch Aksi" });
     }
   },
   getIAksiById: async (req, res) => {
@@ -46,11 +46,11 @@ export const aksiController = {
         res.json({ result: response });
       } else {
         console.log(error);
-        res.status(404).json({ error: "Aksi not found" });
+        res.status(404).json({ message: "Aksi not found" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch Aksi" });
+      res.status(500).json({ message: "Failed to fetch Aksi" });
     }
   },
 

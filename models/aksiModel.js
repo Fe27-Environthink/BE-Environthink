@@ -54,6 +54,9 @@ const Aksi = db.define(
     freezeTableName: true,
   }
 );
+Aksi.associate = (models) => {
+  Aksi.hasMany(models.Kontribusi, { foreignKey: "aksi_id" });
+};
 
 export default Aksi;
 

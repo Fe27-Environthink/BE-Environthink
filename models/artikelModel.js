@@ -4,7 +4,7 @@ import db from "../config/database.js";
 const { DataTypes } = Sequelize;
 
 const artikel = db.define(
-  'Artikel',
+  "Artikel",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -82,12 +82,14 @@ const artikel = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    
   },
   {
     freezeTableName: true,
   }
 );
+artikel.associate = (models) => {
+  artikel.hasMany(models.Komentar, { foreignKey: "article_id" });
+};
 
 export default artikel;
 

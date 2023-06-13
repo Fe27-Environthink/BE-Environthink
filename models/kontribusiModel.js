@@ -7,18 +7,22 @@ const Kontribusi = db.define(
   "Kontribusi",
   {
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: true,
-      },
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: true,
+    },
     aksi_id: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: "Aksi",
+        key: "id",
       },
+    },
     email: {
       type: DataTypes.STRING,
-      allowNull: true,    
+      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -29,19 +33,22 @@ const Kontribusi = db.define(
       allowNull: false,
     },
     url: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     telepon: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-  
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,
   }
 );
+Kontribusi.associate = function (models) {
+  Kontribusi.belongsTo(models.Aksi, { foreignKey: "aksi_id" });
+  console.log(models);
+};
 
 export default Kontribusi;
 

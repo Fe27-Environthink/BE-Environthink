@@ -1,3 +1,4 @@
+import { or } from "sequelize";
 import Donasi from "../models/donasiModel.js";
 import User from "../models/userModel.js";
 
@@ -8,7 +9,7 @@ export const donasiController = {
       res.json(response);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch donasi" });
+      res.status(500).json({ message: "Failed to fetch donasi" });
     }
   },
   createDonasi: async (req, res) => {
@@ -58,11 +59,56 @@ export const donasiController = {
       if (response) {
         res.json({ result: response });
       } else {
-        res.status(404).json({ error: "Donasi not found" });
+        res.status(404).json({ message: "Donasi not found" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch donasi" });
+      res.status(500).json({ message: "Failed to fetch donasi" });
+    }
+  },
+  updateDonasi: async (req, res) => {
+    const { id } = req.params;
+    const { nama, nomor_hp, email, nomor_rekening, original_value } = req.body;
+    try {
+      const donasi = await Donasi.findByPk(id);
+      if (!donasi) {
+        return res.status(404).json({ message: "Donasi not found" });
+      }
+      if (nama) {
+        donasi.name = nama;
+      }
+      if (email) {
+        donasi.email = donasi;
+      }
+      if (nomor_hp) {
+        donasi.nomor_hp = nomor_hp;
+      }
+      if (nomor_rekening) {
+        donasi.nomor_rekening = nomor_rekening;
+      }
+      if (original_value) {
+        donasi.original_value = original_value;
+      }
+      await donasi.save();
+      res.json({ message: "Donasi updated successfully" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  deleteDonasi: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const donasi = await Donasi.findByPk(id);
+      if (!donasi) {
+        return res.status(404).json({ message: "Donasi not found" });
+      }
+      await donasi.destroy();
+      res.json({ message: "Donasi deleted successfully" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
     }
   },
 };

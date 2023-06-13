@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import Kontribusi from "../models/kontribusiModel.js";
+import Aksi from "../models/aksiModel.js";
 
 export const kontribusiController = {
   getKontribusi: async (req, res) => {
@@ -9,7 +10,7 @@ export const kontribusiController = {
       res.json(response);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch Kontribusi" });
+      res.status(500).json({ message: "Failed to fetch Kontribusi" });
     }
   },
   getKontribusiById: async (req, res) => {
@@ -22,59 +23,39 @@ export const kontribusiController = {
       if (response) {
         res.json({ result: response });
       } else {
-        res.status(404).json({ error: "Kontribusi not found" });
+        res.status(404).json({ message: "Kontribusi not found" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch Kontribusi" });
+      res.status(500).json({ message: "Failed to fetch Kontribusi" });
     }
   },
-  
+
   createKontribusi: async (req, res) => {
-    if (req.files === null)
-      return res.status(400).json({ message: "No file Uploaded" });
-    const file = req.files.Image;
-   const fileSize = file.data.length;
-    console.log("ini file size", fileSize);
-    const ext = path.extname(file.name);
-    const fileName = file.md5 + ext;
-    const url = `${req.protocol}://${req.get("host")}/kontribusi/${fileName}`;
-    const allowedType = [".png", ".jpg", ".jpeg"];
-    const aksi_id = req.body.aksi_id;
-    const telepon = req.body.telepon;
-    const email = req.body.email;
-    const name = req.body.name;
+    const { name, email, telepon, kota } = req.body;
+    const aksi_id = req.params.id;
 
-
-    if (!allowedType.includes(ext.toLowerCase()))
-      return res.status(422).json({ message: "Invalid Images Type" });
-    if (fileSize > 5000000)
-      return res.status(422).json({ message: "Image size larger than 5 MB" });
-
-      file.mv(`./public/kontribusi/${fileName}`, async (error) => {
-      if (error) {
-
-        return res.status(500).json({ message: error.message });
-      }
-      try {
-        const newKontribusi = await Kontribusi.create({
-            aksi_id: aksi_id,
-            email: email,
-            name: name,
-            image: fileName,
-            url: url,
-            telepon: telepon,
-        });
-        res.status(201).json({
-          success: true,
-          message: "Successfully Created Kontribusi",
-          result: newKontribusi,
-        });
-      } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: `ini error` });
-      }
-    });
+    const aksi = await Aksi.findByPk(aksi_id);
+    if (!aksi) {
+      return res.status(404).json({ message: "Aksi not found" });
+    }
+    try {
+      const petisi = await Aksi.create({
+        aksi_id,
+        telepon,
+        name,
+        email,
+        kota,
+      });
+      res.status(201).json({
+        success: true,
+        message: "Successfully Created Petisi",
+        result: petisi,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+    }
   },
   updateKontribusi: async (req, res) => {
     const Kontribusi = await Kontribusi.findOne({
@@ -82,7 +63,7 @@ export const kontribusiController = {
         id: req.params.id,
       },
     });
-        console.log(Kontribusi);
+    console.log(Kontribusi);
 
     if (!Kontribusi) return res.status(404).json({ message: "Data Not Found" });
     let fileName = "";
@@ -105,7 +86,7 @@ export const kontribusiController = {
 
       file.mv(`./public/kontribusi/${fileName}`, (error) => {
         if (error) {
-            console.log(`ini error`);
+          console.log(`ini error`);
           return res.status(500).json({ message: error.message });
         }
       });
@@ -117,13 +98,14 @@ export const kontribusiController = {
     const url = `${req.protocol}://${req.get("host")}/kontribusi/${fileName}`;
     try {
       await Kontribusi.update(
-        {  aksi_id: aksi_id,
+        {
+          aksi_id: aksi_id,
           email: email,
           name: name,
           image: fileName,
           url: url,
           telepon: telepon,
-          },
+        },
         {
           where: {
             id: req.params.id,

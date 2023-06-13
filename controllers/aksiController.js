@@ -1,6 +1,7 @@
 import Aksi from "../models/aksiModel.js";
 import path from "path";
 import fs from "fs";
+import uploadImage from "../middleware/cloudinary.js";
 
 export const aksiController = {
   getAksi: async (req, res) => {
@@ -22,6 +23,7 @@ export const aksiController = {
       if (response) {
         res.json({ result: response });
       } else {
+        console.log(error);
         res.status(404).json({ error: "Aksi not found" });
       }
     } catch (error) {
@@ -29,7 +31,7 @@ export const aksiController = {
       res.status(500).json({ error: "Failed to fetch Aksi" });
     }
   },
-  
+
   createAksi: async (req, res) => {
     if (req.files === null)
       return res.status(400).json({ message: "No file Uploaded" });
@@ -47,22 +49,21 @@ export const aksiController = {
     const teks = req.body.teks;
     const hashtag = req.body.hashtag;
 
-
     if (!allowedType.includes(ext.toLowerCase()))
       return res.status(422).json({ message: "Invalid Images Type" });
     if (fileSize > 5000000)
       return res.status(422).json({ message: "Image size larger than 5 MB" });
 
-    file.mv(`./public/aksi/${fileName}`, async (error) => {
+    file.mv(`./tmp/images/${fileName}`, async (error) => {
+      const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
       if (error) {
         return res.status(500).json({ message: error.message });
       }
       try {
         const newAksi = await Aksi.create({
-
           aksi_id: aksi_id,
           image: fileName,
-          url: url,
+          url: urlImage,
           title: title,
           hashtag: hashtag,
           desc: desc,
@@ -82,18 +83,18 @@ export const aksiController = {
     });
   },
   updateAksi: async (req, res) => {
-    const Aksi = await Aksi.findOne({
+    const aksi = await Aksi.findOne({
       where: {
         id: req.params.id,
       },
     });
-    if (!Aksi) return res.status(404).json({ message: "Data Not Found" });
+    if (!aksi) return res.status(404).json({ message: "Data Not Found" });
 
     let fileName = "";
     if (req.file === null) {
       fileName = Aksi.gambar;
     } else {
-      const file = req.files.file;
+      const file = req.files.image;
       const fileSize = file.data.length;
       const ext = path.extname(file.name);
       fileName = file.md5 + ext;
@@ -104,10 +105,10 @@ export const aksiController = {
       if (fileSize > 5000000)
         return res.status(422).json({ message: "Image size larger than 5 MB" });
 
-      const filepath = `./public/aksi/${fileName}`;
+      const filepath = `./tmp/images/${fileName}`;
       fs.unlinkSync(filepath);
 
-      file.mv(`./public/aksi/${fileName}`, (error) => {
+      file.mv(`./tmp/images/${fileName}`, (error) => {
         if (error) {
           return res.status(500).json({ message: error.message });
         }
@@ -121,18 +122,20 @@ export const aksiController = {
     const desc2 = req.body.desc2;
     const teks = req.body.teks;
     const url = `${req.protocol}://${req.get("host")}/aksi/${fileName}`;
+    const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
     try {
       await Aksi.update(
-        {  aksi_id: aksi_id,
+        {
+          aksi_id: aksi_id,
           image: fileName,
-          url: url,
+          url: urlImage,
           title: title,
           hashtag: hashtag,
           desc: desc,
           desc1: desc1,
           desc2: desc2,
           teks: teks,
-          },
+        },
         {
           where: {
             id: req.params.id,
@@ -147,12 +150,12 @@ export const aksiController = {
     }
   },
   deleteAksi: async (req, res) => {
-    const Aksi = await aksi.findOne({
+    const aksi = await Aksi.findOne({
       where: {
         id: req.params.id,
       },
     });
-    if (!Aksi) return res.status(404).json({ message: "Data Not Found" });
+    if (!aksi) return res.status(404).json({ message: "Data Not Found" });
     try {
       const filepath = `./public/aksi/${fileName}`;
       fs.unlinkSync(filepath);

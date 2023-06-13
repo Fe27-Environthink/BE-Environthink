@@ -13,23 +13,33 @@ export const donasiController = {
   },
   createDonasi: async (req, res) => {
     try {
-      const { nama, nomor_hp, email, nomor_rekening, originalValue, user_id } =
+      const { nama, nomor_hp, email, nomor_rekening, original_value } =
         req.body;
 
-      const formatedvalue = `Rp ${originalValue.toLocaleString()}`;
+      const formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+      const formated_value = formatter.format(original_value);
+      const user_id = req.user.id;
 
       const user = await User.findByPk(user_id);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
+      if (user.email !== email) {
+        return res
+          .status(400)
+          .json({ message: "Donation data does not match the logged-in user" });
+      }
       const donasi = await Donasi.create({
-        nama: nama,
-        nomor_hp: nomor_hp,
-        email: email,
-        nomor_rekening: nomor_rekening,
-        original_value: originalValue,
-        formated_value: formatedvalue,
-        user_id: user_id,
+        nama,
+        nomor_hp,
+        email,
+        nomor_rekening,
+        original_value,
+        formated_value,
+        user_id,
       });
       res.status(201).json({ message: "Donasi created successfully", donasi });
     } catch (error) {

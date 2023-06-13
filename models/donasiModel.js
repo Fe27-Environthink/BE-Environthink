@@ -52,12 +52,12 @@ const Donasi = db.define(
   }
 );
 Donasi.associate = function (models) {
-  // Donasi.belongsToMany(models.User, {foreignKey: 'user_id', as: 'user'})
+  Donasi.belongsToMany(models.User, { foreignKey: "user_id" });
   console.log(models);
 };
 
 export default Donasi;
 
-// (async () => {
-//   await db.sync();
-// })();
+(async () => {
+  await db.sync();
+})();

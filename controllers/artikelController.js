@@ -39,7 +39,7 @@ export const ArtikelsController = {
       res.json(result);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch Artikels" });
+      res.status(500).json({ message: "Failed to fetch Artikels" });
     }
   },
 
@@ -57,11 +57,11 @@ export const ArtikelsController = {
 
         res.json({ result: response });
       } else {
-        res.status(404).json({ error: "Artikels not found" });
+        res.status(404).json({ message: "Artikels not found" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch Artikels" });
+      res.status(500).json({ message: "Failed to fetch Artikels" });
     }
   },
 

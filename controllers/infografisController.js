@@ -10,7 +10,7 @@ export const infografisController = {
       res.json(response);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch infografis" });
+      res.status(500).json({ message: "Failed to fetch infografis" });
     }
   },
   getInfografisById: async (req, res) => {
@@ -23,11 +23,11 @@ export const infografisController = {
       if (response) {
         res.json({ result: response });
       } else {
-        res.status(404).json({ error: "Infografis not found" });
+        res.status(404).json({ message: "Infografis not found" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Failed to fetch infografis" });
+      res.status(500).json({ message: "Failed to fetch infografis" });
     }
   },
   createInfografis: async (req, res) => {

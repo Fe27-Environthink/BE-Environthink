@@ -40,6 +40,15 @@ const User = db.define(
     freezeTableName: true,
   }
 );
+User.associate = (models) => {
+  User.hasMany(models.Donasi, { foreignKey: "user_id" });
+};
+User.associate = (models) => {
+  User.hasMany(models.Komentar, { foreignKey: "user_id" });
+};
+User.associate = (models) => {
+  User.hasMany(models.Kontribusi, { foreignKey: "user_id" });
+};
 
 export default User;
 

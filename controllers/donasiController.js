@@ -75,7 +75,7 @@ export const donasiController = {
         return res.status(404).json({ message: "Donasi not found" });
       }
       if (nama) {
-        donasi.name = nama;
+        donasi.nama = nama;
       }
       if (email) {
         donasi.email = donasi;
@@ -89,6 +89,13 @@ export const donasiController = {
       if (original_value) {
         donasi.original_value = original_value;
       }
+      const formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+      const formated_value = formatter.format(original_value);
+
+      donasi.formated_value = formated_value;
       await donasi.save();
       res.json({ message: "Donasi updated successfully" });
     } catch (error) {

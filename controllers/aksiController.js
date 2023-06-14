@@ -172,7 +172,7 @@ export const aksiController = {
         }
       );
       res.status(200).json({
-        message: "Successfully Updated Product",
+        message: "Successfully Updated Aksi",
       });
     } catch (error) {
       console.log(error.message);
@@ -193,7 +193,7 @@ export const aksiController = {
           id: req.params.id,
         },
       });
-      res.status(200).json({ message: " Successfully Deleted aksi" });
+      res.status(200).json({ message: " Successfully Deleted Aksi" });
     } catch (error) {
       console.log(error.message);
     }

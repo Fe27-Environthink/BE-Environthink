@@ -98,6 +98,22 @@ export const komentarController = {
       res.status(500).json({ message: error.message });
     }
   },
+  getKomentarByArtikel: async (req, res) => {
+    try {
+      const { artikelId } = req.params;
+      const komentar = await Komentar.findAll({
+        where: { article_id: artikelId },
+        // include: { model: User },
+      });
+      res.status(200).json({
+        message: "Successfully retrieved comment",
+        result: komentar,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Failed to fetch Comment" });
+    }
+  },
 };
 
 export default komentarController;

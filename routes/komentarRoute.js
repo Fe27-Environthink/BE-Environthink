@@ -21,5 +21,9 @@ router.delete(
   [authMiddleware.verifyToken],
   komentarController.deleteKomentar
 );
+router.get(
+  "/artikel/:artikelId/komentar",
+  komentarController.getKomentarByArtikel
+);
 
 export default router;

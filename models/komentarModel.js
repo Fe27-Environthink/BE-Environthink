@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
+import User from "./userModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -47,8 +48,6 @@ const Komentar = db.define(
 Komentar.associate = function (models) {
   Komentar.belongsTo(models.User, { foreignKey: "user_id" });
   console.log(models);
-};
-Komentar.associate = function (models) {
   Komentar.belongsTo(models.artikel, { foreignKey: "article_id" });
   console.log(models);
 };

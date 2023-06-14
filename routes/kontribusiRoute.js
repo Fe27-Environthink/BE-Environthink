@@ -5,7 +5,11 @@ import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/kontribusi", kontribusiController.getKontribusi);
+router.get(
+  "/kontribusi",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
+  kontribusiController.getKontribusi
+);
 router.get("/kontribusi/:id", kontribusiController.getKontribusiById);
 router.post(
   "/kontribusi",

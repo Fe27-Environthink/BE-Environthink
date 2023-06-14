@@ -1,7 +1,6 @@
-import path from "path";
-import fs from "fs";
 import Kontribusi from "../models/kontribusiModel.js";
 import Aksi from "../models/aksiModel.js";
+import User from "../models/userModel.js";
 
 export const kontribusiController = {
   getKontribusi: async (req, res) => {
@@ -33,110 +32,66 @@ export const kontribusiController = {
 
   createKontribusi: async (req, res) => {
     const { name, email, telepon, kota } = req.body;
-    const aksi_id = req.params.id;
+    const aksi_id = req.query.aksiId;
 
+    const user_id = req.user.id;
+    const user = await User.findByPk(user_id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if (user.email !== email) {
+      return res
+        .status(400)
+        .json({ message: "Email does not match the logged-in user" });
+    }
+    if (user.telepon !== telepon) {
+      return res
+        .status(400)
+        .json({ message: "Telepon does not match the logged-in user" });
+    }
+    if (user.kota !== kota) {
+      return res
+        .status(400)
+        .json({ message: "Kota does not match the logged-in user" });
+    }
     const aksi = await Aksi.findByPk(aksi_id);
     if (!aksi) {
       return res.status(404).json({ message: "Aksi not found" });
     }
+
+    const existingKontribusi = await Kontribusi.findOne({
+      where: {
+        user_id: user_id,
+        aksi_id: aksi_id,
+      },
+    });
+    if (existingKontribusi) {
+      return res
+        .status(400)
+        .json({ message: "You have already made a kontribusi" });
+    }
+
     try {
-      const petisi = await Aksi.create({
+      const petisi = await Kontribusi.create({
+        user_id,
         aksi_id,
         telepon,
         name,
         email,
         kota,
       });
+
+      aksi.numberofsupport += 1;
+      await aksi.save();
+
       res.status(201).json({
         success: true,
-        message: "Successfully Created Petisi",
+        message: "Successfully Created Kontribusi",
         result: petisi,
       });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: error.message });
-    }
-  },
-  updateKontribusi: async (req, res) => {
-    const Kontribusi = await Kontribusi.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-    console.log(Kontribusi);
-
-    if (!Kontribusi) return res.status(404).json({ message: "Data Not Found" });
-    let fileName = "";
-    if (req.file === null) {
-      fileName = Kontribusi.Image;
-    } else {
-      const file = req.files.file;
-      const fileSize = req.files.image.size;
-      const ext = path.extname(req.files.image.name);
-      fileName = req.files.image.md5 + ext;
-      const allowedType = [".png", ".jpg", ".jpeg"];
-
-      if (!allowedType.includes(ext.toLowerCase()))
-        return res.status(422).json({ message: "Invalid Images Type" });
-      if (fileSize > 5000000)
-        return res.status(422).json({ message: "Image size larger than 5 MB" });
-
-      const filepath = `./public/kontribusi/${fileName}`;
-      fs.unlinkSync(filepath);
-
-      file.mv(`./public/kontribusi/${fileName}`, (error) => {
-        if (error) {
-          console.log(`ini error`);
-          return res.status(500).json({ message: error.message });
-        }
-      });
-    }
-    const aksi_id = req.body.aksi_id;
-    const telepon = req.body.telepon;
-    const email = req.body.email;
-    const name = req.body.name;
-    const url = `${req.protocol}://${req.get("host")}/kontribusi/${fileName}`;
-    try {
-      await Kontribusi.update(
-        {
-          aksi_id: aksi_id,
-          email: email,
-          name: name,
-          image: fileName,
-          url: url,
-          telepon: telepon,
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      );
-      res.status(200).json({
-        message: "Successfully Updated kontribusi",
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  },
-  deleteKontribusi: async (req, res) => {
-    const Kontribusi = await Kontribusi.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-    if (!Kontribusi) return res.status(404).json({ message: "Data Not Found" });
-    try {
-      const filepath = `./public/kontribusi/${fileName}`;
-      fs.unlinkSync(filepath);
-      await Kontribusi.destroy({
-        where: {
-          id: req.params.id,
-        },
-      });
-      res.status(200).json({ message: " Successfully Deleted kontribusi" });
-    } catch (error) {
-      console.log(error.message);
     }
   },
 };

@@ -1,4 +1,4 @@
-// routes/aksiRoutes.js
+// routes/komentarRoutes.js
 import express from "express";
 import komentarController from "../controllers/komentarController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -6,7 +6,6 @@ import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.get("/komentar", komentarController.getKomentar);
-router.get("/komentar/:id", komentarController.getKomentarById);
 router.post(
   "/komentar",
   [authMiddleware.verifyToken],

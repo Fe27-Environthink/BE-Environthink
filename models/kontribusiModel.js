@@ -28,17 +28,21 @@ const Kontribusi = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    url: {
+    kota: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     telepon: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    user_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: "User",
+        key: "id",
+      },
     },
   },
   {
@@ -47,6 +51,10 @@ const Kontribusi = db.define(
 );
 Kontribusi.associate = function (models) {
   Kontribusi.belongsTo(models.Aksi, { foreignKey: "aksi_id" });
+  console.log(models);
+};
+Kontribusi.associate = function (models) {
+  Kontribusi.belongsTo(models.User, { foreignKey: "user_id" });
   console.log(models);
 };
 

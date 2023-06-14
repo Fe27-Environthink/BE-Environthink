@@ -5,8 +5,16 @@ import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // router.get("/donasi", donasiController.get);
-router.get("/donasi", donasiController.getDonasi);
-router.get("/donasi/:id", donasiController.getDonasiById);
+router.get(
+  "/donasi",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
+  donasiController.getDonasi
+);
+router.get(
+  "/donasi/:id",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
+  donasiController.getDonasiById
+);
 router.post(
   "/donasi",
   [authMiddleware.verifyToken],
@@ -15,12 +23,12 @@ router.post(
 router.patch(
   "/donasi/:id",
   [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  donasiController.createDonasi
+  donasiController.updateDonasi
 );
 router.delete(
   "/donasi/:id",
   [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  donasiController.createDonasi
+  donasiController.deleteDonasi
 );
 
 export default router;

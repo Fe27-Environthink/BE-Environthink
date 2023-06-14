@@ -12,26 +12,9 @@ export const komentarController = {
       res.status(500).json({ message: "Failed to fetch Comment" });
     }
   },
-  getKomentarById: async (req, res) => {
-    try {
-      const response = await Komentar.findOne({
-        where: {
-          id: req.params.id,
-        },
-      });
-      if (response) {
-        res.json({ result: response });
-      } else {
-        res.status(404).json({ message: "Comment not found" });
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Failed to fetch Comment" });
-    }
-  },
   createKomentar: async (req, res) => {
     const { name, email, komentar } = req.body;
-    const article_id = req.params.id;
+    const article_id = req.query.artikelId;
 
     const user_id = req.user.id;
     const user = await User.findByPk(user_id);
@@ -67,18 +50,24 @@ export const komentarController = {
   },
   updateKomentar: async (req, res) => {
     const { id } = req.params;
-    const { name, email, komentar } = req.body;
+    const { komentar } = req.body;
 
+    const user_id = req.user.id;
+    const user = await User.findByPk(user_id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
     try {
       const comment = await Komentar.findByPk(id);
       if (!comment) {
-        return res.status(404).json({ message: "Komentar not found" });
+        return res.status(404).json({ message: "Comment not found" });
       }
-      if (name) {
-        comment.name = name;
-      }
-      if (email) {
-        comment.email = email;
+      console.log("user_id:", user_id);
+      console.log(comment.user_id);
+      if (comment.user_id !== user_id) {
+        return res.status(403).json({
+          message: "Unauthorized",
+        });
       }
       if (komentar) {
         comment.komentar = komentar;
@@ -92,6 +81,11 @@ export const komentarController = {
   },
   deleteKomentar: async (req, res) => {
     const { id } = req.params;
+    const user_id = req.user.id;
+    const user = await User.findByPk(user_id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
     try {
       const comment = await Komentar.findByPk(id);
       if (!comment) {

@@ -24,9 +24,10 @@ export const komentarController = {
         .json({ message: "Anda harus login terlebih dahulu" });
     }
     if (user.email !== email) {
-      return res
-        .status(400)
-        .json({ message: "Email anda tidak valid, pastikan email a" });
+      return res.status(400).json({
+        message:
+          "Pastikan email anda sama dengan email yang digunakan saat login!",
+      });
     }
     const artikels = await artikel.findByPk(article_id);
     if (!artikels) {
@@ -78,8 +79,7 @@ export const komentarController = {
       }
       await comment.save();
       res.json({
-        message:
-          "Pastikan email anda sama dengan email yang digunakan saat login!",
+        message: "Berhasil mengubah komentar",
       });
     } catch (error) {
       console.log(error);

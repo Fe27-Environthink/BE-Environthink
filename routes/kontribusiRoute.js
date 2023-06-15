@@ -14,7 +14,7 @@ router.use(function (req, res, next) {
 });
 router.get(
   "/kontribusi",
-  [authMiddleware.verifyToken, authMiddleware.isAdmin],
+  [authMiddleware.verifyToken],
   kontribusiController.getKontribusi
 );
 router.get("/kontribusi/:id", kontribusiController.getKontribusiById);

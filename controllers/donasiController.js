@@ -69,44 +69,6 @@ export const donasiController = {
       res.status(500).json({ message: "Gagal mendapatkan donasi" });
     }
   },
-  updateDonasi: async (req, res) => {
-    const { id } = req.params;
-    const { nama, nomor_hp, email, nomor_rekening, original_value } = req.body;
-    try {
-      const donasi = await Donasi.findByPk(id);
-      if (!donasi) {
-        return res.status(404).json({ message: "Donasi tidak ditemukan" });
-      }
-      if (nama) {
-        donasi.nama = nama;
-      }
-      if (email) {
-        donasi.email = donasi;
-      }
-      if (nomor_hp) {
-        donasi.nomor_hp = nomor_hp;
-      }
-      if (nomor_rekening) {
-        donasi.nomor_rekening = nomor_rekening;
-      }
-      if (original_value) {
-        donasi.original_value = original_value;
-      }
-      const formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
-      const formated_value = formatter.format(original_value);
-
-      donasi.formated_value = formated_value;
-      res.json({ message: "Berhasil melakukan update donasi" });
-      await donasi.save();
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error.message });
-    }
-  },
-
   deleteDonasi: async (req, res) => {
     const { id } = req.params;
     try {

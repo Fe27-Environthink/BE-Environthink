@@ -60,6 +60,6 @@ Aksi.associate = (models) => {
 
 export default Aksi;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

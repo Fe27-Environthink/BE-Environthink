@@ -13,7 +13,7 @@ const Komentar = db.define(
       primaryKey: true,
     },
     article_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: "artikel",
@@ -21,7 +21,7 @@ const Komentar = db.define(
       },
     },
     user_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: "User",

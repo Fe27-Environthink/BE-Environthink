@@ -93,6 +93,6 @@ artikel.associate = (models) => {
 
 export default artikel;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

@@ -27,11 +27,6 @@ router.post(
   [authMiddleware.verifyToken],
   donasiController.createDonasi
 );
-router.patch(
-  "/donasi/:id",
-  [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  donasiController.updateDonasi
-);
 router.delete(
   "/donasi/:id",
   [authMiddleware.verifyToken, authMiddleware.isAdmin],

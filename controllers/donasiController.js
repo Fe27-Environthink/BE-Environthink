@@ -9,7 +9,7 @@ export const donasiController = {
       res.json(response);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch donasi" });
+      res.status(500).json({ message: "Gagal mendapatkan donasi" });
     }
   },
   createDonasi: async (req, res) => {
@@ -26,12 +26,15 @@ export const donasiController = {
 
       const user = await User.findByPk(user_id);
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        return res
+          .status(404)
+          .json({ message: "Anda harus login terlebih dahulu" });
       }
       if (user.email !== email) {
-        return res
-          .status(400)
-          .json({ message: "Donation data does not match the logged-in user" });
+        return res.status(400).json({
+          message:
+            "Pastikan email anda sama dengan email yang digunakan saat login!",
+        });
       }
       const donasi = await Donasi.create({
         nama,
@@ -42,10 +45,10 @@ export const donasiController = {
         formated_value,
         user_id,
       });
-      res.status(201).json({ message: "Donasi created successfully", donasi });
+      res.status(201).json({ message: "Berhasil melakukan donasi", donasi });
     } catch (error) {
       console.log(error);
-      res.status(400).json({ message: "Failed to create donasi" });
+      res.status(400).json({ message: "Gagal melakukan donasi" });
     }
   },
 
@@ -59,11 +62,11 @@ export const donasiController = {
       if (response) {
         res.json({ result: response });
       } else {
-        res.status(404).json({ message: "Donasi not found" });
+        res.status(404).json({ message: "Donasi tidak ditemukan" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch donasi" });
+      res.status(500).json({ message: "Gagal mendapatkan donasi" });
     }
   },
   updateDonasi: async (req, res) => {
@@ -72,7 +75,7 @@ export const donasiController = {
     try {
       const donasi = await Donasi.findByPk(id);
       if (!donasi) {
-        return res.status(404).json({ message: "Donasi not found" });
+        return res.status(404).json({ message: "Donasi tidak ditemukan" });
       }
       if (nama) {
         donasi.nama = nama;
@@ -97,7 +100,7 @@ export const donasiController = {
 
       donasi.formated_value = formated_value;
       await donasi.save();
-      res.json({ message: "Donasi updated successfully" });
+      res.json({ message: "Berhasil melakukan update donasi" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: error.message });
@@ -109,10 +112,10 @@ export const donasiController = {
     try {
       const donasi = await Donasi.findByPk(id);
       if (!donasi) {
-        return res.status(404).json({ message: "Donasi not found" });
+        return res.status(404).json({ message: "Donasi tidak ditemukan" });
       }
       await donasi.destroy();
-      res.json({ message: "Donasi deleted successfully" });
+      res.json({ message: "Berhasil menghapus donasi" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: error.message });

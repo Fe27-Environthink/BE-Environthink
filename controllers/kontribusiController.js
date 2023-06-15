@@ -37,26 +37,29 @@ export const kontribusiController = {
     const user_id = req.user.id;
     const user = await User.findByPk(user_id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Login terlebih dahulu" });
     }
     if (user.email !== email) {
-      return res
-        .status(400)
-        .json({ message: "Email does not match the logged-in user" });
+      return res.status(400).json({
+        message:
+          "Pastikan email anda sama dengan email yang digunakan saat login!",
+      });
     }
     if (user.telepon !== telepon) {
-      return res
-        .status(400)
-        .json({ message: "Telepon does not match the logged-in user" });
+      return res.status(400).json({
+        message:
+          "Pastikan nomor telepon sama dengan nomor telepon yang anda isikan saat registrasi!",
+      });
     }
     if (user.kota !== kota) {
-      return res
-        .status(400)
-        .json({ message: "Kota does not match the logged-in user" });
+      return res.status(400).json({
+        message:
+          "Pastikan kota sama dengan kota yang anda isikan saat registrasi!",
+      });
     }
     const aksi = await Aksi.findByPk(aksi_id);
     if (!aksi) {
-      return res.status(404).json({ message: "Aksi not found" });
+      return res.status(404).json({ message: "Aksi tidak ditemukan" });
     }
 
     const existingKontribusi = await Kontribusi.findOne({
@@ -68,7 +71,7 @@ export const kontribusiController = {
     if (existingKontribusi) {
       return res
         .status(400)
-        .json({ message: "You have already made a kontribusi" });
+        .json({ message: "Anda sudah pernah menandatangani petisi ini" });
     }
 
     try {
@@ -86,7 +89,7 @@ export const kontribusiController = {
 
       res.status(201).json({
         success: true,
-        message: "Successfully Created Kontribusi",
+        message: "Terimakasih Anda sudah berkontribusi dalam aksi ini!",
         result: petisi,
       });
     } catch (error) {

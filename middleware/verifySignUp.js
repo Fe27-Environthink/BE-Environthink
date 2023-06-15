@@ -10,7 +10,7 @@ export const verifySignUp = async (req, res, next) => {
     });
 
     if (existingUser) {
-      res.status(400).json({ message: "Username is already in use!" });
+      res.status(400).json({ message: "Username sudah digunakan" });
       return;
     }
     // EMAIL
@@ -21,7 +21,7 @@ export const verifySignUp = async (req, res, next) => {
     });
 
     if (existingEmail) {
-      res.status(400).json({ message: "Email is already in use!" });
+      res.status(400).json({ message: "Email sudah digunakan" });
       return;
     }
 

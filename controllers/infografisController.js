@@ -10,7 +10,7 @@ export const infografisController = {
       res.json(response);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch infografis" });
+      res.status(500).json({ message: "Gagal mendapatkan infografis" });
     }
   },
   getInfografisById: async (req, res) => {
@@ -23,16 +23,16 @@ export const infografisController = {
       if (response) {
         res.json({ result: response });
       } else {
-        res.status(404).json({ message: "Infografis not found" });
+        res.status(404).json({ message: "Infografis tidak ditemukan" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch infografis" });
+      res.status(500).json({ message: "Gagal mendapatkan infografis" });
     }
   },
   createInfografis: async (req, res) => {
     if (req.files === null)
-      return res.status(400).json({ message: "No file Uploaded" });
+      return res.status(400).json({ message: "Masukkan file gambar" });
     const name = req.body.title;
     const file = req.files.file;
     const fileSize = file.data.lenght;
@@ -42,9 +42,11 @@ export const infografisController = {
     const allowedType = [".png", ".jpg", ".jpeg"];
 
     if (!allowedType.includes(ext.toLowerCase()))
-      return res.status(422).json({ message: "Invalid Images Type" });
+      return res
+        .status(422)
+        .json({ message: "Harap masukkan file berupa jpeg|jpg|png" });
     if (fileSize > 5000000)
-      return res.status(422).json({ message: "Image size larger than 5 MB" });
+      return res.status(422).json({ message: "Ukuran gambar maksimal 5 MB" });
 
     file.mv(`./tmp/images/${fileName}`, async (error) => {
       const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
@@ -59,7 +61,7 @@ export const infografisController = {
         });
         res.status(201).json({
           success: true,
-          message: "Successfully Created Infografis",
+          message: "Berhasil membuat infografis",
           result: newInfografis,
         });
       } catch (error) {
@@ -74,7 +76,8 @@ export const infografisController = {
         id: req.params.id,
       },
     });
-    if (!infografis) return res.status(404).json({ message: "Data Not Found" });
+    if (!infografis)
+      return res.status(404).json({ message: "Data Tidak Ditemukan" });
 
     let fileName = "";
     if (req.file === null) {
@@ -87,9 +90,11 @@ export const infografisController = {
       const allowedType = [".png", ".jpg", ".jpeg"];
 
       if (!allowedType.includes(ext.toLowerCase()))
-        return res.status(422).json({ message: "Invalid Images Type" });
+        return res
+          .status(422)
+          .json({ message: "Harap masukkan file berupa jpeg|jpg|png" });
       if (fileSize > 5000000)
-        return res.status(422).json({ message: "Image size larger than 5 MB" });
+        return res.status(422).json({ message: "Ukuran gambar maksimal 5 MB" });
 
       const filepath = `./tmp/images/${infografis.gambar}`;
       fs.unlinkSync(filepath);
@@ -113,7 +118,7 @@ export const infografisController = {
         }
       );
       res.status(200).json({
-        message: "Successfully Updated Product",
+        message: "Berhasil melakukan update infografis",
       });
     } catch (error) {
       console.log(error.message);
@@ -125,7 +130,8 @@ export const infografisController = {
         id: req.params.id,
       },
     });
-    if (!infografis) return res.status(404).json({ message: "Data Not Found" });
+    if (!infografis)
+      return res.status(404).json({ message: "Data Tidak Ditemukan" });
     try {
       const filepath = `./assets/images/${infografis.gambar}`;
       fs.unlinkSync(filepath);
@@ -134,7 +140,7 @@ export const infografisController = {
           id: req.params.id,
         },
       });
-      res.status(200).json({ message: " Successfully Deleted Infografis" });
+      res.status(200).json({ message: "Berhasil Menghapus Donasi" });
     } catch (error) {
       console.log(error.message);
     }

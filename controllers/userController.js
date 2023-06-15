@@ -18,11 +18,11 @@ export const signup = async (req, res) => {
       role: userRole,
     });
     res.status(201).json({
-      message: "User was registered successfully!",
+      message: "Anda berhasil melakukan registrasi!",
       data: user,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to register" });
+    res.status(500).json({ message: "Gagal melakukan registrasi!" });
   }
 };
 
@@ -34,7 +34,7 @@ export const signin = async (req, res) => {
       },
     });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User tidak ditemukan" });
     }
 
     const isPasswordValid = await bcrypt.compareSync(
@@ -42,7 +42,9 @@ export const signin = async (req, res) => {
       user.password
     );
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res
+        .status(401)
+        .json({ message: "Password yang anda masukkan tidak sesuai" });
     }
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
@@ -50,7 +52,7 @@ export const signin = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Success login!",
+      message: "Anda berhasil login!",
       id: user.id,
       username: user.username,
       email: user.email,
@@ -61,7 +63,7 @@ export const signin = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Failed to login" });
+    res.status(500).json({ message: "Gagal login" });
   }
 };
 
@@ -70,7 +72,7 @@ export const getUser = async (req, res) => {
     const user = await User.findAll();
 
     res.status(200).json({
-      message: "Admin Content",
+      message: "Data User",
       data: user,
     });
   } catch (error) {
@@ -84,7 +86,7 @@ export const updateUser = async (req, res) => {
   try {
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User tidak ditemukan" });
     }
     if (username) {
       user.username = username;
@@ -106,7 +108,7 @@ export const updateUser = async (req, res) => {
       user.password = hashedPassword;
     }
     await user.save();
-    res.json({ message: "User updated successfully" });
+    res.json({ message: "Berhasil melakukan update data user" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
@@ -118,10 +120,10 @@ export const deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User tidak ditemukan" });
     }
     await user.destroy();
-    res.json({ message: "User deleted successfully" });
+    res.json({ message: "Berhasil menghapus data user" });
   } catch (err) {
     console.log(error);
     res.status(500).json({ message: err.message });

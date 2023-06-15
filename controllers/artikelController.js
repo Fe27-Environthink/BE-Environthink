@@ -39,7 +39,7 @@ export const ArtikelsController = {
       res.json(result);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch Artikels" });
+      res.status(500).json({ message: "Gagal mendapatkan Artikel" });
     }
   },
 
@@ -57,18 +57,18 @@ export const ArtikelsController = {
 
         res.json({ result: response });
       } else {
-        res.status(404).json({ message: "Artikels not found" });
+        res.status(404).json({ message: "Artikel tidak ditemukan" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch Artikels" });
+      res.status(500).json({ message: "Gagal mendapatkan Aksi" });
     }
   },
 
   createArtikels: async (req, res) => {
     console.log("ini req body", req.body);
     if (req.files === null)
-      return res.status(400).json({ message: "No file Uploaded" });
+      return res.status(400).json({ message: "Masukkan file gambar" });
     const titleArticle = req.body.titleArticle;
     const descArticle = req.body.descArticle;
     const category = req.body.category;
@@ -97,9 +97,11 @@ export const ArtikelsController = {
     const desc10 = req.body.desc10;
 
     if (!allowedType.includes(ext.toLowerCase()))
-      return res.status(422).json({ message: "Invalid Images Type" });
+      return res
+        .status(422)
+        .json({ message: "Harap masukkan file berupa jpeg|jpg|png" });
     if (fileSize > 5000000)
-      return res.status(422).json({ message: "Image size larger than 5 MB" });
+      return res.status(422).json({ message: "Ukuran gambar maksimal 5 MB" });
 
     file.mv(`./tmp/images/${fileName}`, async (error) => {
       const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
@@ -129,7 +131,7 @@ export const ArtikelsController = {
         });
         res.status(201).json({
           success: true,
-          message: "Successfully Created Artikels",
+          message: "Berhasil membuat artikel",
           result: newArtikels,
         });
       } catch (error) {
@@ -145,7 +147,8 @@ export const ArtikelsController = {
         id: req.params.id,
       },
     });
-    if (!artikel) return res.status(404).json({ message: "Data Not Found" });
+    if (!artikel)
+      return res.status(404).json({ message: "Data Tidak Ditemukan" });
 
     let fileName = "";
     if (req.file === null) {
@@ -158,9 +161,11 @@ export const ArtikelsController = {
       const allowedType = [".png", ".jpg", ".jpeg"];
 
       if (!allowedType.includes(ext.toLowerCase()))
-        return res.status(422).json({ message: "Invalid Images Type" });
+        return res
+          .status(422)
+          .json({ message: "Harap masukkan file berupa jpeg|jpg|png" });
       if (fileSize > 5000000)
-        return res.status(422).json({ message: "Image size larger than 5 MB" });
+        return res.status(422).json({ message: "Ukuran gambar maksimal 5 MB" });
 
       const filepath = `./tmp/images/${fileName}`;
       fs.unlinkSync(filepath);
@@ -217,7 +222,7 @@ export const ArtikelsController = {
         }
       );
       res.status(200).json({
-        message: "Successfully Updated Artikels",
+        message: "Berhasil melakukan update Artikel",
       });
     } catch (error) {
       console.log(error.message);
@@ -234,7 +239,7 @@ export const ArtikelsController = {
       });
 
       if (!artikel) {
-        return res.status(404).json({ message: "Data Not Found" });
+        return res.status(404).json({ message: "Data tidak ditemukan" });
       }
 
       const filepath = `./tmp/images/${artikel.image}`;
@@ -247,7 +252,7 @@ export const ArtikelsController = {
         },
       });
 
-      res.status(200).json({ message: "Successfully Deleted Artikels" });
+      res.status(200).json({ message: "Berhasil menghapus Artikel" });
     } catch (error) {
       console.log(error.message);
       res.status(500).json({ message: "Internal Server Error" });

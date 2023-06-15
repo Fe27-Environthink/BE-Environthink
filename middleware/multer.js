@@ -1,8 +1,10 @@
 import multer from "multer";
 import path from "path";
 
+const imagesDir = process.env.TMP_IMAGES_DIR;
+
 const storage = multer.diskStorage({
-  destination: "/tmp/images", // optional, if images save to internal server / project
+  destination: imagesDir, // optional, if images save to internal server / project
   filename: function (req, file, cb) {
     console.log({ file }, "file");
     cb(null, Date.now() + path.extname(file.originalname));

@@ -37,7 +37,7 @@ const Kontribusi = db.define(
       allowNull: false,
     },
     user_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: "User",
@@ -60,6 +60,6 @@ Kontribusi.associate = function (models) {
 
 export default Kontribusi;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
-import User from "./userModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -59,6 +58,6 @@ Donasi.associate = function (models) {
 
 export default Donasi;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

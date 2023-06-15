@@ -99,7 +99,6 @@ export const donasiController = {
       const formated_value = formatter.format(original_value);
 
       donasi.formated_value = formated_value;
-      await donasi.save();
       res.json({ message: "Berhasil melakukan update donasi" });
       await donasi.save();
     } catch (error) {

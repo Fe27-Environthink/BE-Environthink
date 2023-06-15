@@ -4,6 +4,13 @@ import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+router.use(function (req, res, next) {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
 router.get("/infografis", infografisController.getInfografis);
 router.get("/infografis/:id", infografisController.getInfografisById);
 router.post(

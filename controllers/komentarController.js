@@ -9,7 +9,7 @@ export const komentarController = {
       res.json(response);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch Comment" });
+      res.status(500).json({ message: "Gagal mendapatkan komentar" });
     }
   },
   createKomentar: async (req, res) => {
@@ -19,16 +19,18 @@ export const komentarController = {
     const user_id = req.user.id;
     const user = await User.findByPk(user_id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(404)
+        .json({ message: "Anda harus login terlebih dahulu" });
     }
     if (user.email !== email) {
       return res
         .status(400)
-        .json({ message: "Comment data does not match the logged-in user" });
+        .json({ message: "Email anda tidak valid, pastikan email a" });
     }
     const artikels = await artikel.findByPk(article_id);
     if (!artikels) {
-      return res.status(404).json({ message: "Artikel not found" });
+      return res.status(404).json({ message: "Artikel tidak ditemukan" });
     }
     try {
       const newKomentar = await Komentar.create({
@@ -40,7 +42,7 @@ export const komentarController = {
       });
       res.status(201).json({
         success: true,
-        message: "Successfully Created Comment",
+        message: "Berhasil menambahkan komentar",
         result: newKomentar,
       });
     } catch (error) {
@@ -55,25 +57,30 @@ export const komentarController = {
     const user_id = req.user.id;
     const user = await User.findByPk(user_id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(404)
+        .json({ message: "Anda harus login terlebih dahulu" });
     }
     try {
       const comment = await Komentar.findByPk(id);
       if (!comment) {
-        return res.status(404).json({ message: "Comment not found" });
+        return res.status(404).json({ message: "Komentar tidak ditemukan" });
       }
       console.log("user_id:", user_id);
       console.log(comment.user_id);
       if (comment.user_id !== user_id) {
         return res.status(403).json({
-          message: "Unauthorized",
+          message: "Unauthorized: Anda tidak dapat melakukan update",
         });
       }
       if (komentar) {
         comment.komentar = komentar;
       }
       await comment.save();
-      res.json({ message: "Comment updated successfully" });
+      res.json({
+        message:
+          "Pastikan email anda sama dengan email yang digunakan saat login!",
+      });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: error.message });
@@ -81,18 +88,28 @@ export const komentarController = {
   },
   deleteKomentar: async (req, res) => {
     const { id } = req.params;
+
     const user_id = req.user.id;
     const user = await User.findByPk(user_id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(404)
+        .json({ message: "Anda harus login terlebih dahulu" });
     }
     try {
       const comment = await Komentar.findByPk(id);
       if (!comment) {
-        return res.status(404).json({ message: "Comment not found" });
+        return res.status(404).json({ message: "Komentar tidak ditemukan" });
+      }
+      console.log("user_id:", user_id);
+      console.log(comment.user_id);
+      if (comment.user_id !== user_id) {
+        return res.status(403).json({
+          message: "Unauthorized: Anda tidak dapat melakukan update",
+        });
       }
       await comment.destroy();
-      res.json({ message: "Comment deleted successfully" });
+      res.json({ message: "Berhasil menghapus komentar" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: error.message });
@@ -106,12 +123,12 @@ export const komentarController = {
         // include: { model: User },
       });
       res.status(200).json({
-        message: "Successfully retrieved comment",
+        message: "Berhasil melihat semua komentar",
         result: komentar,
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch Comment" });
+      res.status(500).json({ message: "Gagal mendapatkan komentar" });
     }
   },
 };

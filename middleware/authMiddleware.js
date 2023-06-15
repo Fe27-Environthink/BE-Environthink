@@ -32,9 +32,10 @@ export const isAdmin = async (req, res, next) => {
     const { role } = req.user;
 
     if (role !== "admin") {
-      return res.status(403).json({ error: "Access denied" });
+      return res.status(403).json({
+        error: "Unauthorized: Hanya admin yang dapat mengakses halaman ini",
+      });
     }
-
     next();
   } catch (error) {
     res.status(500).json({ error: "Failed to authorize" });

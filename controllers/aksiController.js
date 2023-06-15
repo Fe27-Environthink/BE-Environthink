@@ -29,7 +29,7 @@ export const aksiController = {
       res.json(result);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch Aksi" });
+      res.status(500).json({ message: "Gagal mendapatkan Aksi" });
     }
   },
   getIAksiById: async (req, res) => {
@@ -46,17 +46,17 @@ export const aksiController = {
         res.json({ result: response });
       } else {
         console.log(error);
-        res.status(404).json({ message: "Aksi not found" });
+        res.status(404).json({ message: "Aksi tidak ditemukan" });
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Failed to fetch Aksi" });
+      res.status(500).json({ message: "Gagal menemukan Aksi" });
     }
   },
 
   createAksi: async (req, res) => {
     if (req.files === null)
-      return res.status(400).json({ message: "No file Uploaded" });
+      return res.status(400).json({ message: "Masukkan file gambar" });
     const file = req.files.image;
     const fileSize = file.data.length;
     const ext = path.extname(file.name);
@@ -74,9 +74,11 @@ export const aksiController = {
     hashtag = JSON.parse(hashtag);
 
     if (!allowedType.includes(ext.toLowerCase()))
-      return res.status(422).json({ message: "Invalid Images Type" });
+      return res
+        .status(422)
+        .json({ message: "Harap masukkan file berupa jpeg|jpg|png|" });
     if (fileSize > 5000000)
-      return res.status(422).json({ message: "Image size larger than 5 MB" });
+      return res.status(422).json({ message: "Ukuran gambar masksimal 5 MB" });
 
     file.mv(`./tmp/images/${fileName}`, async (error) => {
       const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
@@ -98,7 +100,7 @@ export const aksiController = {
         });
         res.status(201).json({
           success: true,
-          message: "Successfully Created Aksi",
+          message: "Berhasil membuat aksi",
           result: newAksi,
         });
       } catch (error) {
@@ -113,7 +115,7 @@ export const aksiController = {
         id: req.params.id,
       },
     });
-    if (!aksi) return res.status(404).json({ message: "Data Not Found" });
+    if (!aksi) return res.status(404).json({ message: "Data tidak ditemukan" });
 
     let fileName = "";
     if (req.file === null) {
@@ -126,9 +128,11 @@ export const aksiController = {
       const allowedType = [".png", ".jpg", ".jpeg"];
 
       if (!allowedType.includes(ext.toLowerCase()))
-        return res.status(422).json({ message: "Invalid Images Type" });
+        return res
+          .status(422)
+          .json({ message: "Harap masukkan file berupa jpeg|jpg|png" });
       if (fileSize > 5000000)
-        return res.status(422).json({ message: "Image size larger than 5 MB" });
+        return res.status(422).json({ message: "Ukuran gambar maksimal 5 MB" });
 
       const filepath = `./tmp/images/${fileName}`;
       fs.unlinkSync(filepath);
@@ -172,7 +176,7 @@ export const aksiController = {
         }
       );
       res.status(200).json({
-        message: "Successfully Updated Aksi",
+        message: "Berhasil melakukan update aksi",
       });
     } catch (error) {
       console.log(error.message);
@@ -184,7 +188,7 @@ export const aksiController = {
         id: req.params.id,
       },
     });
-    if (!aksi) return res.status(404).json({ message: "Data Not Found" });
+    if (!aksi) return res.status(404).json({ message: "Data tidak ditemukan" });
     try {
       const filepath = `./public/aksi/${fileName}`;
       fs.unlinkSync(filepath);
@@ -193,7 +197,7 @@ export const aksiController = {
           id: req.params.id,
         },
       });
-      res.status(200).json({ message: " Successfully Deleted Aksi" });
+      res.status(200).json({ message: "Berhasil menghapus Aksi" });
     } catch (error) {
       console.log(error.message);
     }

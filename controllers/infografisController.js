@@ -126,24 +126,17 @@ export const infografisController = {
     }
   },
   deleteInfografis: async (req, res) => {
-    const infografis = await Infografis.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-    if (!infografis)
-      return res.status(404).json({ message: "Data Tidak Ditemukan" });
+    const { id } = req.params;
     try {
-      const filepath = `./assets/images/${infografis.gambar}`;
-      fs.unlinkSync(filepath);
-      await Infografis.destroy({
-        where: {
-          id: req.params.id,
-        },
-      });
-      res.status(200).json({ message: "Berhasil Menghapus Donasi" });
+      const infografis = await Infografis.findByPk(id);
+      if (!infografis) {
+        return res.status(404).json({ message: "Infografis tidak ditemukan" });
+      }
+      await infografis.destroy();
+      res.json({ message: "Berhasil menghapus infografis" });
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
+      res.status(500).json({ message: error.message });
     }
   },
 };

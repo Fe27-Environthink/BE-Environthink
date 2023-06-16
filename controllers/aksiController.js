@@ -190,7 +190,7 @@ export const aksiController = {
     });
     if (!aksi) return res.status(404).json({ message: "Data tidak ditemukan" });
     try {
-      const filepath = `./public/aksi/${fileName}`;
+      const filepath = `./tmp/images/${fileName}`;
       fs.unlinkSync(filepath);
       await Aksi.destroy({
         where: {

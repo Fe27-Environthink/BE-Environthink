@@ -17,7 +17,13 @@ const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(FileUpload());
+// app.use(FileUpload());
+app.use(
+  FileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
+);
 app.use(express.static("assets"));
 
 app.use(infografisRoute);

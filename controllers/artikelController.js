@@ -231,31 +231,17 @@ export const ArtikelsController = {
   },
 
   deleteArtikels: async (req, res) => {
+    const { id } = req.params;
     try {
-      const artikel = await Artikels.findOne({
-        where: {
-          id: req.params.id,
-        },
-      });
-
+      const artikel = await Artikels.findByPk(id);
       if (!artikel) {
-        return res.status(404).json({ message: "Data tidak ditemukan" });
+        return res.status(404).json({ message: "Artikel tidak ditemukan" });
       }
-
-      const filepath = `./tmp/images/${artikel.image}`;
-      console.log(artikel.image);
-      fs.unlinkSync(filepath);
-
-      await artikel.destroy({
-        where: {
-          id: req.params.id,
-        },
-      });
-
-      res.status(200).json({ message: "Berhasil menghapus Artikel" });
+      await artikel.destroy();
+      res.json({ message: "Berhasil menghapus artikel" });
     } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error);
+      res.status(500).json({ message: error.message });
     }
   },
 };

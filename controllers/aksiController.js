@@ -183,23 +183,17 @@ export const aksiController = {
     }
   },
   deleteAksi: async (req, res) => {
-    const aksi = await Aksi.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-    if (!aksi) return res.status(404).json({ message: "Data tidak ditemukan" });
+    const { id } = req.params;
     try {
-      const filepath = `./tmp/images/${fileName}`;
-      fs.unlinkSync(filepath);
-      await Aksi.destroy({
-        where: {
-          id: req.params.id,
-        },
-      });
-      res.status(200).json({ message: "Berhasil menghapus Aksi" });
+      const aksi = await Aksi.findByPk(id);
+      if (!aksi) {
+        return res.status(404).json({ message: "Aksi tidak ditemukan" });
+      }
+      await aksi.destroy();
+      res.json({ message: "Berhasil menghapus Aksi" });
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
+      res.status(500).json({ message: error.message });
     }
   },
 };

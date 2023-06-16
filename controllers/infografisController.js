@@ -48,8 +48,8 @@ export const infografisController = {
     if (fileSize > 5000000)
       return res.status(422).json({ message: "Ukuran gambar maksimal 5 MB" });
 
-    file.mv(`./tmp/images/${fileName}`, async (error) => {
-      const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
+    file.mv(`tmp/images/${fileName}`, async (error) => {
+      const urlImage = await uploadImage(`tmp/images/${fileName}`, "environ");
       if (error) {
         return res.status(500).json({ message: error.message });
       }

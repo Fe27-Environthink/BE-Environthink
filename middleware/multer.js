@@ -1,8 +1,6 @@
 import multer from "multer";
 import path from "path";
 
-const imagesDir = process.env.TMP_IMAGES_DIR;
-
 const storage = multer.diskStorage({
   destination: "/tmp/images", // optional, if images save to internal server / project
   filename: function (req, file, cb) {
@@ -15,6 +13,7 @@ const uploadSingle = multer({
   storage: storage,
   // limits: { fileSize: 1000000 },
   fileFilter: function (req, file, cb) {
+    console.log(file);
     checkFileType(file, cb);
   },
 }).single("image");

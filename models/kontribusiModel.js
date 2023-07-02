@@ -15,10 +15,10 @@ const Kontribusi = db.define(
     aksi_id: {
       type: DataTypes.STRING,
       allowNull: false,
-      references: {
-        model: "Aksi",
-        key: "id",
-      },
+      // references: {
+      //   model: "Aksi",
+      //   key: "id",
+      // },
     },
     email: {
       type: DataTypes.STRING,
@@ -39,10 +39,10 @@ const Kontribusi = db.define(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: "User",
-        key: "id",
-      },
+      // references: {
+      //   model: "User",
+      //   key: "id",
+      // },
     },
   },
   {
@@ -60,6 +60,6 @@ Kontribusi.associate = function (models) {
 
 export default Kontribusi;
 
-// (async () => {
-//   await db.sync();
-// })();
+(async () => {
+  await db.sync();
+})();

@@ -31,6 +31,6 @@ const Infografis = db.define(
 
 export default Infografis;
 
-// (async () => {
-//   await db.sync();
-// })();
+(async () => {
+  await db.sync();
+})();

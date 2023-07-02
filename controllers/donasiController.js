@@ -1,4 +1,3 @@
-import { or } from "sequelize";
 import Donasi from "../models/donasiModel.js";
 import User from "../models/userModel.js";
 

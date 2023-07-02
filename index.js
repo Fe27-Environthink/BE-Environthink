@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(
   FileUpload({
     useTempFiles: true,
-    tempFileDir: "/tmp/",
+    tempFileDir: "/tmp/images",
   })
 );
 app.use(express.static("assets"));

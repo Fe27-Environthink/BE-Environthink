@@ -15,18 +15,18 @@ const Komentar = db.define(
     article_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: "artikel",
-        key: "id",
-      },
+      // references: {
+      //   model: "artikel",
+      //   key: "id",
+      // },
     },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: "User",
-        key: "id",
-      },
+      // references: {
+      //   model: "User",
+      //   key: "id",
+      // },
     },
     name: {
       type: DataTypes.STRING,

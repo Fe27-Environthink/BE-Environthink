@@ -4,7 +4,7 @@ import db from "../config/database.js";
 const { DataTypes } = Sequelize;
 
 const User = db.define(
-  "users",
+  "user",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -52,6 +52,6 @@ User.associate = (models) => {
 
 export default User;
 
-// (async () => {
-//   await db.sync();
-// })();
+(async () => {
+  await db.sync();
+})();

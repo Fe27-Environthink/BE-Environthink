@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-08-23T09:00:38.005Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 11_11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5760.212 Safari/537.36" etag="3XaQkGRhZwIpBmhzdtqQ" version="21.6.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-08-23T09:16:03.092Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 11_11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5760.212 Safari/537.36" etag="FLS6b7horTpE1CFzKB8N" version="21.6.8" type="github">
   <diagram name="Page-1" id="qEmlZQmLzBSCucffJ7fc">
     <mxGraphModel dx="2425" dy="2895" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -895,13 +895,13 @@
         <mxCell id="QrSdCawtB9OezQGgRAFz-67" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="QrSdCawtB9OezQGgRAFz-5" target="QrSdCawtB9OezQGgRAFz-27" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="QrSdCawtB9OezQGgRAFz-5" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;DAFTAR&amp;nbsp; AKSI&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="QrSdCawtB9OezQGgRAFz-5" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;AKSI&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-840" y="-860" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="QrSdCawtB9OezQGgRAFz-66" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="QrSdCawtB9OezQGgRAFz-6" target="QrSdCawtB9OezQGgRAFz-34" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="QrSdCawtB9OezQGgRAFz-6" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;DAFTAR ARTIKEL&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="QrSdCawtB9OezQGgRAFz-6" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;ARTIKEL&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-610" y="-860" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="QrSdCawtB9OezQGgRAFz-7" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;DONASI&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -1005,10 +1005,10 @@
         <mxCell id="QrSdCawtB9OezQGgRAFz-92" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;LOGIN&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="430" y="-1230" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="QrSdCawtB9OezQGgRAFz-94" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;AKSI&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="QrSdCawtB9OezQGgRAFz-94" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;DAFTAR AKSI&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="110" y="-870" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="QrSdCawtB9OezQGgRAFz-96" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;ARTIKEL&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="QrSdCawtB9OezQGgRAFz-96" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;DAFTAR ARTIKEL&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="430" y="-870" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="QrSdCawtB9OezQGgRAFz-97" value="&lt;h1&gt;&lt;font face=&quot;Times New Roman&quot;&gt;DONASI&lt;/font&gt;&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -1343,7 +1343,7 @@
         <mxCell id="QrSdCawtB9OezQGgRAFz-221" value="MENGELOLA ARTIKEL" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="345" y="200" width="175" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="QrSdCawtB9OezQGgRAFz-222" value="MELIHAT DAN MENGHAPUS DATA DONASI" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="QrSdCawtB9OezQGgRAFz-222" value="MENGELOLA" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="345" y="290" width="195" height="80" as="geometry" />
         </mxCell>
         <mxCell id="QrSdCawtB9OezQGgRAFz-226" value="USER" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">

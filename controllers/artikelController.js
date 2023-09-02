@@ -1,11 +1,9 @@
-import Artikels from "../models/artikelModel.js";
-import path from "path";
-import fs from "fs";
-import uploadImage from "../middleware/cloudinary.js";
-// import { JSON } from "sequelize";
-// import { json } from "body-parser";
+const Artikels = require("../models/artikelModel.js");
+const path = require("path");
+const fs = require("fs");
+const uploadImage = require("../middleware/cloudinary.js");
 
-export const ArtikelsController = {
+const ArtikelsController = {
   getArtikels: async (req, res) => {
     try {
       let response = await Artikels.findAll();
@@ -246,4 +244,4 @@ export const ArtikelsController = {
   },
 };
 
-export default ArtikelsController;
+module.exports = ArtikelsController;

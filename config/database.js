@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+const { Sequelize } = require("sequelize");
 
 // const db = new Sequelize("sql12623387", "sql12623387", "dTlBZL8F4e", {
 //   host: "sql12.freemysqlhosting.net",
@@ -10,4 +10,4 @@ const db = new Sequelize("sql12630004", "sql12630004", "Q3bCn417uP", {
   dialect: "mysql",
 });
 
-export default db;
+module.exports = db;

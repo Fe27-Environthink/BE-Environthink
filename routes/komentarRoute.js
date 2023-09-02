@@ -1,7 +1,6 @@
-// routes/komentarRoutes.js
-import express from "express";
-import komentarController from "../controllers/komentarController.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+const express = require("express");
+const komentarController = require("../controllers/komentarController.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
 
 const router = express.Router();
 
@@ -12,6 +11,7 @@ router.use(function (req, res, next) {
   );
   next();
 });
+
 router.get("/komentar", komentarController.getKomentar);
 router.post(
   "/komentar",
@@ -33,4 +33,4 @@ router.get(
   komentarController.getKomentarByArtikel
 );
 
-export default router;
+module.exports = router;

@@ -1,7 +1,5 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
-
-const { DataTypes } = Sequelize;
+const { DataTypes } = require("sequelize");
+const db = require("../config/database.js");
 
 const Aksi = db.define(
   "Aksi",
@@ -58,8 +56,4 @@ Aksi.associate = (models) => {
   Aksi.hasMany(models.Kontribusi, { foreignKey: "aksi_id" });
 };
 
-export default Aksi;
-
-// (async () => {
-//   await db.sync();
-// })();
+module.exports = Aksi;

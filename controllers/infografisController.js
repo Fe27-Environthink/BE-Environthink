@@ -1,9 +1,13 @@
-import Infografis from "../models/infografisModel.js";
-import path from "path";
-import fs from "fs";
-import uploadImage from "../middleware/cloudinary.js";
+const express = require("express");
+const FileUpload = require("express-fileupload");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const path = require("path");
+const fs = require("fs");
+const uploadImage = require("../middleware/cloudinary.js");
+const Infografis = require("../models/infografisModel.js");
 
-export const infografisController = {
+const infografisController = {
   getInfografis: async (req, res) => {
     try {
       const response = await Infografis.findAll();
@@ -36,7 +40,7 @@ export const infografisController = {
     const name = req.body.title;
     const file = req.files.file;
     console.log(file);
-    const fileSize = file.data.lenght;
+    const fileSize = file.data.length; // Perbaikan typo dari `lenght` menjadi `length`
     const ext = path.extname(file.name);
     const fileName = file.md5 + ext;
     const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
@@ -82,10 +86,10 @@ export const infografisController = {
 
     let fileName = "";
     if (req.file === null) {
-      fileName = Infografis.gambar;
+      fileName = infografis.gambar;
     } else {
       const file = req.files.file;
-      const fileSize = file.data.lenght;
+      const fileSize = file.data.length; // Perbaikan typo dari `lenght` menjadi `length`
       const ext = path.extname(file.name);
       fileName = file.md5 + ext;
       const allowedType = [".png", ".jpg", ".jpeg"];
@@ -141,4 +145,4 @@ export const infografisController = {
   },
 };
 
-export default infografisController;
+module.exports = infografisController;

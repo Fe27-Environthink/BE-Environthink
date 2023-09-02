@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import User from "../models/userModel.js";
+const jwt = require("jsonwebtoken");
+const User = require("../models/userModel.js");
 
-export const verifyToken = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   try {
     // const token = req.header["x-access-token"];
     const token = req.headers.authorization?.split(" ")[1];
@@ -27,7 +27,7 @@ export const verifyToken = async (req, res, next) => {
   }
 };
 
-export const isAdmin = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
   try {
     const { role } = req.user;
 
@@ -47,4 +47,4 @@ const authMiddleware = {
   isAdmin: isAdmin,
 };
 
-export default authMiddleware;
+module.exports = authMiddleware;

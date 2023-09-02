@@ -1,6 +1,6 @@
-import User from "../models/userModel.js";
+const User = require("../models/userModel.js");
 
-export const verifySignUp = async (req, res, next) => {
+const verifySignUp = async (req, res, next) => {
   // USERNAME
   try {
     const existingUser = await User.findOne({
@@ -32,4 +32,4 @@ export const verifySignUp = async (req, res, next) => {
   }
 };
 
-export default verifySignUp;
+module.exports = verifySignUp;

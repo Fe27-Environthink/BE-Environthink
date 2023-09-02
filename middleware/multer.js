@@ -1,5 +1,5 @@
-import multer from "multer";
-import path from "path";
+const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: "/tmp/images", // optional, if images save to internal server / project
@@ -37,5 +37,4 @@ function checkFileType(file, cb) {
   }
 }
 
-// module.exports = { uploadSingle, uploadMultiple };
-export default uploadSingle;
+module.exports = uploadSingle;

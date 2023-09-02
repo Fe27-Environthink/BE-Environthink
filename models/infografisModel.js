@@ -1,7 +1,7 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
+const Sequelize = require("sequelize");
+const db = require("../config/database.js");
 
-const { DataTypes } = Sequelize;
+const DataTypes = Sequelize.DataTypes;
 
 const Infografis = db.define(
   "infografis",
@@ -29,7 +29,7 @@ const Infografis = db.define(
   }
 );
 
-export default Infografis;
+module.exports = Infografis;
 
 (async () => {
   await db.sync();

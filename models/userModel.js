@@ -1,7 +1,5 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
-
-const { DataTypes } = Sequelize;
+const { Sequelize, DataTypes } = require("sequelize");
+const db = require("../config/database.js");
 
 const User = db.define(
   "user",
@@ -40,17 +38,14 @@ const User = db.define(
     freezeTableName: true,
   }
 );
+
 User.associate = (models) => {
   User.hasMany(models.Donasi, { foreignKey: "user_id" });
-};
-User.associate = (models) => {
   User.hasMany(models.Komentar, { foreignKey: "user_id" });
-};
-User.associate = (models) => {
   User.hasMany(models.Kontribusi, { foreignKey: "user_id" });
 };
 
-export default User;
+module.exports = User;
 
 (async () => {
   await db.sync();

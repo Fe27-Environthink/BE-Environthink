@@ -1,8 +1,7 @@
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
-import cloudinary from "cloudinary";
-
+const cloudinary = require("cloudinary");
 cloudinary.v2;
 
 if (process.env.NODE_ENV !== "production") {
@@ -36,5 +35,4 @@ const uploadImage = async (image, subFolder) => {
   return dataUpload;
 };
 
-// module.exports = uploadImage;
-export default uploadImage;
+module.exports = uploadImage;

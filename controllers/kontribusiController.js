@@ -1,8 +1,8 @@
-import Kontribusi from "../models/kontribusiModel.js";
-import Aksi from "../models/aksiModel.js";
-import User from "../models/userModel.js";
+const Kontribusi = require("../models/kontribusiModel.js");
+const Aksi = require("../models/aksiModel.js");
+const User = require("../models/userModel.js");
 
-export const kontribusiController = {
+const kontribusiController = {
   getKontribusi: async (req, res) => {
     try {
       const response = await Kontribusi.findAll();
@@ -99,4 +99,4 @@ export const kontribusiController = {
   },
 };
 
-export default kontribusiController;
+module.exports = kontribusiController;

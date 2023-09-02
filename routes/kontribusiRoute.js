@@ -1,7 +1,6 @@
-// routes/kontribusiRoutes.js
-import express from "express";
-import kontribusiController from "../controllers/kontribusiController.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+const express = require("express");
+const kontribusiController = require("../controllers/kontribusiController.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
 
 const router = express.Router();
 
@@ -12,6 +11,7 @@ router.use(function (req, res, next) {
   );
   next();
 });
+
 router.get(
   "/kontribusi",
   [authMiddleware.verifyToken],
@@ -24,4 +24,4 @@ router.post(
   kontribusiController.createKontribusi
 );
 
-export default router;
+module.exports = router;

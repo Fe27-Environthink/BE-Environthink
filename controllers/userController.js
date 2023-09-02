@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import User from "../models/userModel.js";
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const User = require("../models/userModel.js");
 
-export const signup = async (req, res) => {
+const signup = async (req, res) => {
   try {
     const { username, email, password, telepon, kota, role } = req.body;
 
@@ -26,7 +26,7 @@ export const signup = async (req, res) => {
   }
 };
 
-export const signin = async (req, res) => {
+const signin = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
@@ -67,7 +67,7 @@ export const signin = async (req, res) => {
   }
 };
 
-export const getUser = async (req, res) => {
+const getUser = async (req, res) => {
   try {
     const user = await User.findAll();
 
@@ -80,7 +80,7 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
   const { id } = req.params;
   const { username, email, role, telepon, kota, password } = req.body;
   try {
@@ -115,7 +115,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.findByPk(id);
@@ -137,4 +137,4 @@ const userController = {
   updateUser: updateUser,
   deleteUser: deleteUser,
 };
-export default userController;
+module.exports = userController;

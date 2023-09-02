@@ -1,8 +1,8 @@
-import Komentar from "../models/komentarModel.js";
-import User from "../models/userModel.js";
-import artikel from "../models/artikelModel.js";
+const Komentar = require("../models/komentarModel.js");
+const User = require("../models/userModel.js");
+const artikel = require("../models/artikelModel.js");
 
-export const komentarController = {
+const komentarController = {
   getKomentar: async (req, res) => {
     try {
       const response = await Komentar.findAll();
@@ -133,4 +133,4 @@ export const komentarController = {
   },
 };
 
-export default komentarController;
+module.exports = komentarController;

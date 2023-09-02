@@ -1,7 +1,6 @@
-// routes/aksiRoutes.js
-import express from "express";
-import aksiController from "../controllers/aksiController.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+const express = require("express");
+const aksiController = require("../controllers/aksiController.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
 
 const router = express.Router();
 
@@ -30,4 +29,4 @@ router.delete(
   aksiController.deleteAksi
 );
 
-export default router;
+module.exports = router;

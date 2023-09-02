@@ -1,7 +1,7 @@
-import express from "express";
-import infografisController from "../controllers/infografisController.js";
-import authMiddleware from "../middleware/authMiddleware.js";
-// import uploadSingle from "../middleware/multer.js";
+const express = require("express");
+const infografisController = require("../controllers/infografisController.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
+// const uploadSingle = require("../middleware/multer.js");
 // console.log(uploadSingle);
 const router = express.Router();
 
@@ -33,4 +33,4 @@ router.delete(
   infografisController.deleteInfografis
 );
 
-export default router;
+module.exports = router;

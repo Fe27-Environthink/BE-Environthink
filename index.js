@@ -1,14 +1,14 @@
-import express from "express";
-import FileUpload from "express-fileupload";
-import cors from "cors";
-import dotenv from "dotenv";
-import infografisRoute from "./routes/infografisRoute.js";
-import userRoute from "./routes/userRoute.js";
-import donasiRoute from "./routes/donasiRoute.js";
-import artikelRoute from "./routes/artikelRoute.js";
-import aksiRoute from "./routes/aksiRoute.js";
-import komentarRoute from "./routes/komentarRoute.js";
-import kontribusiRoute from "./routes/kontribusiRoute.js";
+const express = require("express");
+const FileUpload = require("express-fileupload");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const infografisRoute = require("./routes/infografisRoute.js");
+const userRoute = require("./routes/userRoute.js");
+const donasiRoute = require("./routes/donasiRoute.js");
+const artikelRoute = require("./routes/artikelRoute.js");
+const aksiRoute = require("./routes/aksiRoute.js");
+const komentarRoute = require("./routes/komentarRoute.js");
+const kontribusiRoute = require("./routes/kontribusiRoute.js");
 
 dotenv.config();
 

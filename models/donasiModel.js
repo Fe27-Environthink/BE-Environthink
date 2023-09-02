@@ -1,7 +1,5 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
-
-const { DataTypes } = Sequelize;
+const { Sequelize, DataTypes } = require("sequelize");
+const db = require("../config/database.js");
 
 const Donasi = db.define(
   "donasi",
@@ -41,10 +39,6 @@ const Donasi = db.define(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      // references: {
-      //   model: "User",
-      //   key: "id",
-      // },
     },
   },
   {
@@ -56,7 +50,7 @@ Donasi.associate = function (models) {
   console.log(models);
 };
 
-export default Donasi;
+module.exports = Donasi;
 
 (async () => {
   await db.sync();

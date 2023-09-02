@@ -1,6 +1,6 @@
-import express from "express";
-import donasiController from "../controllers/donasiController.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+const express = require("express");
+const donasiController = require("../controllers/donasiController.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
 
 const router = express.Router();
 
@@ -33,4 +33,4 @@ router.delete(
   donasiController.deleteDonasi
 );
 
-export default router;
+module.exports = router;

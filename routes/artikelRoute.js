@@ -1,6 +1,6 @@
-import express from "express";
-import artikelsController from "../controllers/artikelController.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+const express = require("express");
+const artikelsController = require("../controllers/artikelController.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
 
 const router = express.Router();
 
@@ -29,4 +29,4 @@ router.delete(
   artikelsController.deleteArtikels
 );
 
-export default router;
+module.exports = router;

@@ -1,7 +1,5 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
-
-const { DataTypes } = Sequelize;
+const { Sequelize, DataTypes } = require("sequelize");
+const db = require("../config/database.js");
 
 const artikel = db.define(
   "Artikel",
@@ -91,8 +89,4 @@ artikel.associate = (models) => {
   artikel.hasMany(models.Komentar, { foreignKey: "article_id" });
 };
 
-export default artikel;
-
-// (async () => {
-//   await db.sync();
-// })();
+module.exports = artikel;

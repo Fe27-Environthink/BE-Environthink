@@ -1,7 +1,7 @@
-import express from "express";
-import authMiddleware from "../middleware/authMiddleware.js";
-import verifySignUp from "../middleware/verifySignUp.js";
-import userController from "../controllers/userController.js";
+const express = require("express");
+const authMiddleware = require("../middleware/authMiddleware.js");
+const verifySignUp = require("../middleware/verifySignUp.js");
+const userController = require("../controllers/userController.js");
 
 const router = express.Router();
 
@@ -32,4 +32,4 @@ router.delete(
 );
 router.get("/user", userController.getUser);
 
-export default router;
+module.exports = router;

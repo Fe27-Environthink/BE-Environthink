@@ -1,6 +1,6 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
-import User from "./userModel.js";
+const Sequelize = require("sequelize");
+const db = require("../config/database.js");
+const User = require("./userModel.js");
 
 const { DataTypes } = Sequelize;
 
@@ -45,6 +45,7 @@ const Komentar = db.define(
     freezeTableName: true,
   }
 );
+
 Komentar.associate = function (models) {
   Komentar.belongsTo(models.User, { foreignKey: "user_id" });
   console.log(models);
@@ -52,7 +53,7 @@ Komentar.associate = function (models) {
   console.log(models);
 };
 
-export default Komentar;
+module.exports = Komentar;
 
 (async () => {
   await db.sync();

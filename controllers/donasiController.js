@@ -1,7 +1,7 @@
-import Donasi from "../models/donasiModel.js";
-import User from "../models/userModel.js";
+const Donasi = require("../models/donasiModel.js");
+const User = require("../models/userModel.js");
 
-export const donasiController = {
+const donasiController = {
   getDonasi: async (req, res) => {
     try {
       const response = await Donasi.findAll();
@@ -84,4 +84,4 @@ export const donasiController = {
   },
 };
 
-export default donasiController;
+module.exports = donasiController;

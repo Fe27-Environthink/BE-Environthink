@@ -1,9 +1,9 @@
-import Aksi from "../models/aksiModel.js";
-import path from "path";
-import fs from "fs";
-import uploadImage from "../middleware/cloudinary.js";
+const Aksi = require("../models/aksiModel.js");
+const path = require("path");
+const fs = require("fs");
+const uploadImage = require("../middleware/cloudinary.js");
 
-export const aksiController = {
+const aksiController = {
   getAksi: async (req, res) => {
     try {
       const response = await Aksi.findAll();
@@ -78,7 +78,7 @@ export const aksiController = {
         .status(422)
         .json({ message: "Harap masukkan file berupa jpeg|jpg|png|" });
     if (fileSize > 5000000)
-      return res.status(422).json({ message: "Ukuran gambar masksimal 5 MB" });
+      return res.status(422).json({ message: "Ukuran gambar maksimal 5 MB" });
 
     file.mv(`./tmp/images/${fileName}`, async (error) => {
       const urlImage = await uploadImage(`./tmp/images/${fileName}`, "environ");
@@ -198,4 +198,4 @@ export const aksiController = {
   },
 };
 
-export default aksiController;
+module.exports = aksiController;

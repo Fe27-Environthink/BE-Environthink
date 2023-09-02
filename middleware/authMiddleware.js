@@ -3,12 +3,11 @@ const User = require("../models/userModel.js");
 
 const verifyToken = async (req, res, next) => {
   try {
-    // const token = req.header["x-access-token"];
     const token = req.headers.authorization?.split(" ")[1];
 
+    // Jika token tidak ditemukan, abaikan middleware ini untuk rute yang memungkinkan akses tanpa otentikasi
     if (!token) {
-      console.log(error);
-      return res.status(401).json({ error: "Authorization token not found" });
+      return next();
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -21,8 +20,8 @@ const verifyToken = async (req, res, next) => {
 
     req.user = user;
     next();
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.error(err);
     res.status(401).json({ error: "Invalid token" });
   }
 };

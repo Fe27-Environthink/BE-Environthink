@@ -14,9 +14,12 @@ const ArtikelsController = {
         container.titleArticle = item.titleArticle;
         container.descArticle = item.descArticle;
         container.category = item.category;
-        container.hashtag = JSON.parse(
-          JSON.parse(JSON.stringify(item.hashtag))
-        );
+        // container.hashtag = JSON.parse(
+        //   JSON.parse(JSON.stringify(item.hashtag))
+        container.hashtag = item.hashtag ? JSON.parse(JSON.stringify(item.hashtag)) : null;
+
+        // );
+        // console.log(item);
         container.author = item.author;
         container.date = item.date;
         container.image = item.image;
@@ -31,6 +34,7 @@ const ArtikelsController = {
         container.desc8 = item.desc8;
         container.desc9 = item.desc9;
         container.desc10 = item.desc10;
+        // console.log(item.desc10);
 
         result.push(container);
       }

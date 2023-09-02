@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "sql12630004",
-    "password": "Q3bCn417uP",
-    "database": "sql12630004",
-    "host": "sql12.freemysqlhosting.net",
+    "username": "mikofirn_fahmi_ajeh",
+    "password": "fahmi.123.123",
+    "database": "mikofirn_fahmi_test",
+    "host": "testfahmi.mikofirnando.my.id",
     "dialect": "mysql"
   },
   "test": {
-    "username": "sql12630004",
-    "password": "Q3bCn417uP",
-    "database": "sql12630004",
-    "host": "sql12.freemysqlhosting.net",
+    "username": "mikofirn_fahmi_ajeh",
+    "password": "fahmi.123.123",
+    "database": "mikofirn_fahmi_test",
+    "host": "testfahmi.mikofirnando.my.id",
     "dialect": "mysql"
   },
   "production": {
-    "username": "sql12630004",
-    "password": "Q3bCn417uP",
-    "database": "sql12630004",
-    "host": "sql12.freemysqlhosting.net",
+    "username": "mikofirn_fahmi_ajeh",
+    "password": "fahmi.123.123",
+    "database": "mikofirn_fahmi_test",
+    "host": "testfahmi.mikofirnando.my.id",
     "dialect": "mysql"
   }
 }
